@@ -3,8 +3,11 @@ const mongoose = require("mongoose");
 // this is the schema for the sended data
 const noteSchema = {
     title: String,
-    content: String,
     url: String,
+    functioneel: Boolean,
+    performance: Boolean,
+    security: Boolean,
+    formData: Boolean,
     // type:String
 }
 

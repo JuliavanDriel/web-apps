@@ -5,6 +5,7 @@ import QuestionPage from './components/Questionpage';
 import HistoryPage from './components/Historypage';
 import Infop from './components/Infop';
 import Home from "./components/Home";
+import CreateTool from "./components/UploadTool";
 
 // defines the routes
 function App() {
@@ -23,6 +24,10 @@ return (
     <Route path="/vragenlijst">
       <QuestionPage/>
       {/* questionpage */}
+    </Route>
+    <Route path= "/createtool">
+      <CreateTool/>
+    {/* Create a tool */}
     </Route>
     <Route path="/rapportgeschiedenis">
       <HistoryPage/>

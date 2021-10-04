@@ -7,14 +7,20 @@ const Note = require("../models/qestModel");//Users/jdriel/Documents/web-db-app/
 // This is the route where the data is sended
 router.route("/create").post((req, res)=>{
     const title = req.body.title;
-    const content = req.body.content;
     const url = req.body.url;
+    const functioneel = req.body.functioneel;
+    const performance = req.body.performance;
+    const security = req.body.security;
+    const formData = req.body.formData;
     // const type = req.body.type;
 
     const newNote = new Note({
                 title,
-                content,
                 url,
+                functioneel,
+                performance,
+                security,
+                formData,
                 // type
             }) ;
 
