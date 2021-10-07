@@ -112,6 +112,7 @@ useEffect(()=>{
             <div>
                 <p className="subTextUpL">Ondersteunt MacOS?</p>
                 <select className="AnswerUpl" name='optionMac' onChange={handleChange3}>
+                {/* <option value="AnswerUpl">On</option> */}
                 <option className="AnswerUpl" value="Ja">Ja</option>
                 <option className="AnswerUpl" value="Nee">Nee</option>
                 </select>
