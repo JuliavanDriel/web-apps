@@ -13,6 +13,11 @@ mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesD
 }).then(console.log('connected to mongoDB!'))
 
 app.use("/",require("./routes/qestRoutes"))
+app.use("/",require("./routes/toolRoutes"))
+
+// app.get("/", (req,res) =>{
+//     res.send('we are home');
+// });
 
 // If there is a connection, it will return that it is running
 app.listen(3001, function(){

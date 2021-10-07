@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState } from "react";
 import axios from "axios";
-// import { modelNames } from "mongoose";
+
+
 
 
 // Renders the questionpage. The function hold nothing, when user types something then it fills in
@@ -11,30 +12,20 @@ function QuestionPage(){
         functioneel: '',
         performance: '',
         sercurity: '',
-        formData: '',
-        // type:''
+        option: ''
     })
+    
+
     const [functioneel,setfunctioneel] = useState(false);
     const [performance,setperformance] = useState(false);
     const [security,setsecurity] = useState(false);
-    const [formdata, setformdata] = useState({
-        moneyTool: '',
-    })
-
-    const handleRadio = event=>{
-        const target = event.target
-        const name = target.name
-        const value = target.value
-
-        setformdata({
-            ...formdata,
-            [name]: value
-        })
-    }
-    // function handleCheckbox(event){
-    //     console.log(event.target.value);
-    // }
     
+    // Handel the options for money
+    const [option,setOption] = useState()
+
+    function handleChange2(event){
+        setOption(event.target.value)
+    }
 
 // Handle the change
     function handleChange(event){
@@ -51,20 +42,21 @@ function QuestionPage(){
 
 // Post data into the database
     function handleClick(event){
+        alert("De vragenlijst is opgeslagen")
         event.preventDefault();
-        // console.log(input);
         const newNote ={
             title: input.title,
             url: input.url,
             functioneel: functioneel,
             performance: performance,
             security: security,
-            moneyTool: formdata.moneyTool
-            // type: input.type
+            option: option,
         }
         
         axios.post('http://localhost:3001/create', newNote)
     }
+
+
 
     // This is where the HTML begins
     return <div className='contain'>
@@ -79,34 +71,32 @@ function QuestionPage(){
         <form className="c" method="post" action="/">
             <div className="form-group">
             {/* Question 1 */}
-            <p>Vraag 1: Wat voor soort test wilt u uitvoeren?</p>
+            <p className="subtitleQest">Vraag 1: Wat voor soort test wilt u uitvoeren?</p>
             {/* checked */}
-            <input type="checkbox" onChange={(e)=>setfunctioneel(e.target.checked)}  name="testtype"></input><span>Functioneel testen</span>
-            <input type="checkbox" onChange= {(e)=>setperformance(e.target.checked)} name="testtype"></input><span>Performance testen</span>
-            <input type="checkbox" onChange= {(e)=>setsecurity(e.target.checked)} name="testtype"></input><span>Security testen</span>
-                        {/* <input type="checkbox"><label>Functioneel</label></input>onChange={(e) => setTnC(e.target.checked)}
-                        <input type="checkbox"><label>Performance</label></input>
-                        <input type="checkbox"><label>Security</label></input> */}
+            <input type="checkbox" onChange={(e)=>setfunctioneel(e.target.checked)}  name="testtype"></input><span className="subtitleQest">Functioneel testen</span>
+            <input type="checkbox" onChange= {(e)=>setperformance(e.target.checked)} name="testtype"></input><span className="subtitleQest">Performance testen</span>
+            <input type="checkbox" onChange= {(e)=>setsecurity(e.target.checked)} name="testtype"></input><span className="subtitleQest">Security testen</span>
             {/* Question 2 */}
-            <p>Vraag 2: Hoe moet het script heten?</p>
+            <p className="subtitleQest">Vraag 2: Hoe moet het script heten?</p>
                 <input onChange={handleChange} name= "title" value={input.title} autoComplete = "off" className="form-controle" placeholder="Naam script"></input>
                 </div>
                 <div className="form-group-3">
                 {/* Question 3 */}
-            <p className="Q3">Vraag 3: Welke URL moet er getest worden?</p>
+            <p className="subtitleQest">Vraag 3: Welke URL moet er getest worden?</p>
                 <input onChange={handleChange} name= "url" value={input.url} autoComplete = "off" className="form-controle" placeholder="URL-link"></input>
                 </div>
                 <div>
-                <p>Vraag 4: Mag de tool geld kosten?</p>
-            <input type="radio" name="moneyTool" value="Ja" onChange={handleRadio} checked={formdata.moneyTool === "Ja"}></input><span>Ja</span>
-            <input type="radio" name="moneyTool" value="Nee" onChange={handleRadio} checked={formdata.moneyTool === "Nee"}></input><span>Nee</span>
+                    {/* Question 4 */}
+                <p className="subtitleQest">Vraag 4: Mag de tool geld kosten?</p>
+                <select name='option' onChange={handleChange2}>
+                <option value="Kosten">Kosten</option>
+                <option className="subtitleQest" value="Ja">Ja</option>
+                <option className="subtitleQest" value="Nee">Nee</option>
+                </select>
             </div>
-            <p>tool : {formdata.moneyTool}</p>
                 {/* Button to add everything to the database */}
-                <button onClick={handleClick} className="AddBtn" >ADD To Mongodb</button>
-
+                <button onClick={handleClick} className="AddBtn">Vragen opslaan</button>
         </form>
-
     </div>
 }
 

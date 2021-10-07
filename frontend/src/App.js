@@ -6,6 +6,8 @@ import HistoryPage from './components/Historypage';
 import Infop from './components/Infop';
 import Home from "./components/Home";
 import CreateTool from "./components/UploadTool";
+// import DataFetch from "./components/DataFetch";
+
 
 // defines the routes
 function App() {
@@ -13,7 +15,7 @@ function App() {
 return (
   <Router>
     <Navbar/>
-    <Route path="/home" exact>
+    <Route path="/" exact>
       <Home/>
       {/* home */}
     </Route>
@@ -37,6 +39,10 @@ return (
       <Infop/>
       {/* questionpage */}
     </Route>
+    {/* <Route path="/datafetch">
+      <DataFetch/>
+      {/* questionpage */}
+    {/* </Route> */} 
   </Router>
 )
 }

@@ -1,12 +1,26 @@
 const mongoose = require("mongoose");
 
-const Checkbox = {
-    type: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    checked: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-  }
 
-  const Tool = mongoose.model("Tool", Checkbox);
+// this is the schema for the sended data
+const toolSchema = {
+    title: String,
+    functioneel: String,
+    performance: String,
+    security: String,
+    option: String,
+    optionMac: String,
+}
 
-  module.exports = Tool;
+const Tool = mongoose.model("Tool", toolSchema);
+
+
+// Tool.find({title:'Postman'}, (error, data)=>{
+//     if(error){
+//         console.log(error);
+//     }
+//     else{
+//         console.log(data);
+//     }
+//     })
+
+module.exports = Tool;

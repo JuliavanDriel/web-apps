@@ -10,9 +10,9 @@ function HomePage(){
         <p className="subTextH">Welkom op de homepagina, vanaf hier kun je een testscript maken.</p>
         </div>
         <div>
-        <a href= "/vragenlijst"><button className="TestScripMakeBtn CreateScript" type="button">Testscript maken <p class= "hakenBetter"></p> </button></a>
-        <a href="/informatiepagina"><button className="ExplainBtn CreateScript2" type="button">Uitleg <p class= "hakenBetter"></p></button></a>
-        <a href="/rapportgeschiedenis"><button className="RHistoyBtn CreateScript3" type="button">Rapport geschiedenis <p class= "hakenBetter"></p></button></a>
+        <a href= "/vragenlijst"><button className="TestScripMakeBtn CreateScript" type="button">Testscript maken <p className= "hakenBetter"></p> </button></a>
+        <a href="/informatiepagina"><button className="ExplainBtn CreateScript2" type="button">Uitleg <p className= "hakenBetter"></p></button></a>
+        <a href="/rapportgeschiedenis"><button className="RHistoyBtn CreateScript3" type="button">Rapport geschiedenis <p className= "hakenBetter"></p></button></a>
         </div>
     </div>
 }

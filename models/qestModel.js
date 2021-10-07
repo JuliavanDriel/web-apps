@@ -7,8 +7,7 @@ const noteSchema = {
     functioneel: Boolean,
     performance: Boolean,
     security: Boolean,
-    formData: Boolean,
-    // type:String
+    option: String,
 }
 
 const Note = mongoose.model("Note", noteSchema);
