@@ -6,6 +6,7 @@ import HistoryPage from './components/Historypage';
 import Infop from './components/Infop';
 import Home from "./components/Home";
 import CreateTool from "./components/UploadTool";
+import Renderpage from "./components/RenderScript";
 // import DataFetch from "./components/DataFetch";
 
 
@@ -39,10 +40,10 @@ return (
       <Infop/>
       {/* questionpage */}
     </Route>
-    {/* <Route path="/datafetch">
-      <DataFetch/>
-      {/* questionpage */}
-    {/* </Route> */} 
+    <Route path="/render">
+      <Renderpage/>
+      {/* qpage */}
+    </Route>
   </Router>
 )
 }

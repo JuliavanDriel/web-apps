@@ -3,6 +3,12 @@ import axios from "axios";
 
 
 function UploadTool(){
+    //This is the state for create tool
+    const [optionMac,setOptionMac] = useState("Ja")
+    const [functioneel,setfunctioneel] = useState(false);
+    const [performance,setperformance] = useState(false);
+    const [security,setsecurity] = useState(false);
+    const [option,setOption] = useState("Ja")
     const [input, setInput] = useState({
         title: '',
         functioneel: "",
@@ -12,44 +18,40 @@ function UploadTool(){
         optionMac:'',
     })
 
-    const [functioneel,setfunctioneel] = useState();
-    const [performance,setperformance] = useState();
-    const [security,setsecurity] = useState();
+    //This is the state for update tool
+    const [optionMoney,setoptionMoney] = useState("");
+    const [newoptionMac, setnewoptionMac] = useState("");
+    const [secur,setsecur] = useState(false);
+    const [newpref,setnewpref] = useState(false);
+    const [newfunc,setnewfunc] = useState(false);
+    const [newtitle,setnewtitle] = useState();
+    
+        // Handle the change
+        function handleChange(event){
+            const{name,value} = event.target;
 
-       
-       // Handel the options for MacOS
-       const [optionMac,setOptionMac] = useState()
+            setInput(prevInput =>{
+                return {
+                    ...prevInput,
+                    [name]: value
+                }
+            })
+        }
 
-       function handleChange3(event){
-           setOptionMac(event.target.value)
-       }
-
-    // Handel the options for money
-       const [option,setOption] = useState()
-
+        //Handle change of option money
        function handleChange2(event){
            setOption(event.target.value)
        }
-
-    // Handle the change
-    function handleChange(event){
-        const{name,value} = event.target;
-
-        setInput(prevInput =>{
-            return {
-                ...prevInput,
-                [name]: value
-            }
-        })
+       function handleChange3(event){
+        setOptionMac(event.target.value)
     }
 
-
-// Post data into the database
+    // Post data into the database/route
     function handleClick(event){
-        alert("De test tool is opgeslagen")
+        alert("De testtool is opgeslagen")
         event.preventDefault();
         
-        
+        // HET AANMAKEN VAN EEN NIEUWE TOOL
         const newTool ={
             title: input.title,
             functioneel: functioneel,
@@ -59,49 +61,69 @@ function UploadTool(){
             optionMac: optionMac,
         }
         
-
-        
         axios.post('http://localhost:3001/createTool', newTool);
     }
 
-const[tools,setTools] = useState([{
-    title: '',
-    functioneel: '',
-    performance: '',
-    security: '',
-    option: '',
-    optionMac:'',
-}])
+    // Maps All the values in an arraqy
+    const[tools,setTools] = useState([{
+        title: newtitle,
+        functioneel: newfunc,
+        performance: performance,
+        security: security,
+        option: '',
+        optionMac:'',
+        _id:'',
+    }])
 
-useEffect(()=>{
-    fetch("/tools").then(res=>{
-        if(res.ok){
-            return res.json()
-        }
-    }).then(jsonRes=> setTools(jsonRes));
-})
+
+    //Makes a JSON object of an array
+    useEffect(()=>{
+        fetch("/tools").then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(jsonRes=> setTools(jsonRes));
+    },[])
+
+    // Delete an item 
+    function deleteItem(id){
+        axios.delete('/delete/' + id);
+        alert("item deleted");
+        console.log("delete item with " + id);
+    }
+
+    //Update an item
+    const UpdateItem = (id) => {
+        axios.put('http://localhost:3001/update',{
+            id: id,
+            title: newtitle,
+            functioneel: newfunc,
+            performance: newpref,
+            security: secur,
+            option: optionMoney,
+            optionMac: newoptionMac,
+        });
+    }
 
 
     return <div className='contain'>
+        
             <div className='greenArray'>
                 <div>
-                <h1 className="TitleI">Upload testtool</h1>
-                 {/* <p class="haken">>></p> */}
+                    <h1 className="TitleI">Upload testtool</h1>
+                    {/* <p class="haken">>></p> */}
                 </div>
             </div>
-
-             <div>
-                <p className="subTextUpL">Naam testtool</p>
-                <input onChange={handleChange} name= "title" autoComplete = "off" className="form-controle" placeholder="Naam"></input>
-            </div>
-        
             <div>
-                <p className="subTextUpL"> Welke test kan er met de tool uitgevoerd worden?</p>  
-                <input type="checkbox" onChange={(e)=>setfunctioneel(e.target.checked)}  name="testtype"></input><span className="AnswerUpl" >Functioneel testen</span>
-                <input type="checkbox" onChange= {(e)=>setperformance(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Performance testen</span>
-                <input type="checkbox" onChange= {(e)=>setsecurity(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Security testen</span>
+                <p className="subTextUpL">Vul hier de naam van de nieuwe testtool in: </p>
+                <input onChange={handleChange} name= "title" autoComplete = "off" className="form-controle" placeholder="Naam"></input>
+                    <div>
+                        <p className="subTextUpL"> Welke test kan er met de tool uitgevoerd worden?</p>  
+                        <input type="checkbox" onChange={(e)=>setfunctioneel(e.target.checked)}  name="testtype"></input><span className="AnswerUpl" >Functioneel testen</span>
+                        <input type="checkbox" onChange= {(e)=>setperformance(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Performance testen</span>
+                        <input type="checkbox" onChange= {(e)=>setsecurity(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Security testen</span>
+                    </div>
             </div>
-            
             <div>
                 <p className="subTextUpL">Kost de tool geld?</p>
                 <select className="AnswerUpl" name='option' onChange={handleChange2}>
@@ -112,26 +134,61 @@ useEffect(()=>{
             <div>
                 <p className="subTextUpL">Ondersteunt MacOS?</p>
                 <select className="AnswerUpl" name='optionMac' onChange={handleChange3}>
-                {/* <option value="AnswerUpl">On</option> */}
                 <option className="AnswerUpl" value="Ja">Ja</option>
                 <option className="AnswerUpl" value="Nee">Nee</option>
                 </select>
             </div>
-            <button onClick={handleClick} className="AddBtn" >Voeg test tool toe</button>
-            {tools.map(to => (
-            
-            <div>
-                <h1 className="titleTools">{to.title}</h1>
-                <p className="titelAnswere">Ondersteunt functioneel: {to.functioneel}</p>
-                <p className="titelAnswere">Ondersteunt performance: {to.performance}</p>
-                <p className="titelAnswere">Ondersteunt security: {to.security}</p>
-                <p className="titelAnswere">Kost geld: {to.option}</p>
-                <p className="titelAnswere">Ondersteunt mac: {to.optionMac}</p>
-                </div>
-            ))
-            }
-         </div>
-}
+            <button onClick={handleClick} className="AddBtn" >Voeg testtool toe</button>
+            <h1>Hier moet een zoek functie komen</h1>
 
+            <h1 className="ShowTools">Testtools</h1>
+<div className="gridContainer">
+            {tools.map((val, key) => {
+                return(
+
+                    
+                    
+                    <div className="Onegrid" key={key}>
+                        <h1 className="titleTools">{val.title}</h1>
+                        <input onChange={(e)=>setnewtitle(e.target.value)} name= "title" autoComplete = "off" className="form-controle" placeholder="Update naam"></input>
+                        <p className="titelAnswere">Ondersteunt functioneel: {val.functioneel}</p>
+                        <p className="titelAnswere">Ondersteunt performance: {val.performance}</p>
+                        <p className="titelAnswere">Ondersteunt security: {val.security}</p>
+                        <input type="checkbox" className="testtypeFunc" onChange={(e)=> setnewfunc(e.target.checked)} name="testtype"></input><span className="AnswerUpl" >Update functioneel</span><br></br>
+                        <input type="checkbox" onChange= {(e)=>setnewpref(e.target.checked)} className="testtypePerf"></input><span className="AnswerUpl">Update performance</span><br></br>
+                        <input type="checkbox" className="testtypeSec" onChange= {(e)=>setsecur(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Update security</span>
+                
+                        <p className="titelAnswere">Kost geld: {val.option}</p>
+                        <select className="AnswerUpl" name='option' onChange={(e) => setoptionMoney(e.target.value)}>
+                        <option className="AnswerUpl" value="Kosten:">Kosten: </option>
+                        <option className="AnswerUpl" value="Ja">Ja</option>
+                        <option className="AnswerUpl" value="Nee">Nee</option>
+                        </select>
+
+
+                        <p className="titelAnswere">Ondersteunt mac: {val.optionMac}</p>
+                        <select className="AnswerUpl" name='optionMac' onChange={(e) => setnewoptionMac(e.target.value)}>
+                        <option className="AnswerUpl" value="OPTIES:">Opties:</option>
+                        <option className="AnswerUpl" value="Ja">Ja</option>
+                        <option className="AnswerUpl" value="Nee">Nee</option>
+                        </select>
+                        
+                        <div className="PutBtnInline">
+                        <button className="deletebtntool" onClick={() => deleteItem(val._id)}>Verwijder tool</button>
+                        <a href="/createtool"><button  onClick={() => UpdateItem(val._id)} className="UpdateBtn" >Update tool</button></a>
+                        
+                    </div></div>
+                    
+                );
+                })
+            }
+                 </div>
+        </div>
+        
+ }
+
+ 
 export default UploadTool;
+       
+
 

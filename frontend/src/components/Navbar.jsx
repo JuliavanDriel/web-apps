@@ -11,7 +11,6 @@ function Navbar(){
         <h4><Link className="link" to="/createtool">|AanmakenTool</Link></h4>
         <h4><Link className="link" to="/rapportgeschiedenis">|Rapport geschiedenis</Link></h4>
         <h4><Link className="link" to="/informatiepagina">|Informatie pagina</Link></h4>
-        {/* <h4><Link className="link" to="/datafetch">|data</Link></h4> */}
         <a href="/"><button className="automaaTestH" type="button">AutomaaTest</button></a>
     </nav>
 }

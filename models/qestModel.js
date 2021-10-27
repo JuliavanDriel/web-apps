@@ -8,6 +8,7 @@ const noteSchema = {
     performance: Boolean,
     security: Boolean,
     option: String,
+    optionMac: String,
 }
 
 const Note = mongoose.model("Note", noteSchema);
