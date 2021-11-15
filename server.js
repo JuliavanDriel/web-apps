@@ -3,11 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+
 app.use(cors());
 app.use(express.json());
 
 // //connect to mongodb
-mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesDB',{
+mongoose.connect('mongodb+srv://JohnDoe:kk@webdb.l1qjh.mongodb.net/notesDB',{
     useUnifiedTopology: true,
     useNewUrlParser : true,
 }).then(console.log('connected to mongoDB!'))
@@ -21,3 +22,4 @@ app.use("/",require("./routes/ScriptRoutes"))
 app.listen(3001, function(){
     console.log("server is running on 3001");
 })
+
