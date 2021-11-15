@@ -7,17 +7,15 @@ app.use(cors());
 app.use(express.json());
 
 // //connect to mongodb
-mongoose.connect('mongodb+srv://JohnDoe:ww@webdb.l1qjh.mongodb.net/notesDB',{
+mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesDB',{
     useUnifiedTopology: true,
     useNewUrlParser : true,
 }).then(console.log('connected to mongoDB!'))
 
+// uses the routes
 app.use("/",require("./routes/qestRoutes"))
 app.use("/",require("./routes/toolRoutes"))
-
-// app.get("/", (req,res) =>{
-//     res.send('we are home');
-// });
+app.use("/",require("./routes/ScriptRoutes"))
 
 // If there is a connection, it will return that it is running
 app.listen(3001, function(){

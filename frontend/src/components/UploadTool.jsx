@@ -142,47 +142,51 @@ function UploadTool(){
             <h1>Hier moet een zoek functie komen</h1>
 
             <h1 className="ShowTools">Testtools</h1>
-<div className="gridContainer">
-            {tools.map((val, key) => {
-                return(
-
-                    
-                    
-                    <div className="Onegrid" key={key}>
-                        <h1 className="titleTools">{val.title}</h1>
-                        <input onChange={(e)=>setnewtitle(e.target.value)} name= "title" autoComplete = "off" className="form-controle" placeholder="Update naam"></input>
-                        <p className="titelAnswere">Ondersteunt functioneel: {val.functioneel}</p>
-                        <p className="titelAnswere">Ondersteunt performance: {val.performance}</p>
-                        <p className="titelAnswere">Ondersteunt security: {val.security}</p>
-                        <input type="checkbox" className="testtypeFunc" onChange={(e)=> setnewfunc(e.target.checked)} name="testtype"></input><span className="AnswerUpl" >Update functioneel</span><br></br>
-                        <input type="checkbox" onChange= {(e)=>setnewpref(e.target.checked)} className="testtypePerf"></input><span className="AnswerUpl">Update performance</span><br></br>
-                        <input type="checkbox" className="testtypeSec" onChange= {(e)=>setsecur(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Update security</span>
-                
-                        <p className="titelAnswere">Kost geld: {val.option}</p>
-                        <select className="AnswerUpl" name='option' onChange={(e) => setoptionMoney(e.target.value)}>
-                        <option className="AnswerUpl" value="Kosten:">Kosten: </option>
-                        <option className="AnswerUpl" value="Ja">Ja</option>
-                        <option className="AnswerUpl" value="Nee">Nee</option>
-                        </select>
-
-
-                        <p className="titelAnswere">Ondersteunt mac: {val.optionMac}</p>
-                        <select className="AnswerUpl" name='optionMac' onChange={(e) => setnewoptionMac(e.target.value)}>
-                        <option className="AnswerUpl" value="OPTIES:">Opties:</option>
-                        <option className="AnswerUpl" value="Ja">Ja</option>
-                        <option className="AnswerUpl" value="Nee">Nee</option>
-                        </select>
+            <div className="gridContainer">
+                {tools.map((val, key) => {
+                    return(
+                        // display multiple tables
+                        <div className="Onegrid" key={key}>
+                            {/* runs the title of a tool */}
+                            <h1 className="titleTools">{val.title}</h1>
+                            {/* update new title */}
+                            <input onChange={(e)=>setnewtitle(e.target.value)} name= "title" autoComplete = "off" className="form-controle" placeholder="Update naam"></input>
+                            {/* multiple choice questions */}
+                            <p className="titelAnswere">Ondersteunt functioneel: {val.functioneel}</p>
+                            <p className="titelAnswere">Ondersteunt performance: {val.performance}</p>
+                            <p className="titelAnswere">Ondersteunt security: {val.security}</p>
+                            <input type="checkbox" className="testtypeFunc" onChange={(e)=> setnewfunc(e.target.checked)} name="testtype"></input><span className="AnswerUpl" >Update functioneel</span><br></br>
+                            <input type="checkbox" onChange= {(e)=>setnewpref(e.target.checked)} className="testtypePerf"></input><span className="AnswerUpl">Update performance</span><br></br>
+                            <input type="checkbox" className="testtypeSec" onChange= {(e)=>setsecur(e.target.checked)} name="testtype"></input><span className="AnswerUpl">Update security</span>
+                            {/* question if the tool costs money */}
+                            <p className="titelAnswere">Kost geld: {val.option}</p>
+                            {/* update the tool */}
+                            <select className="AnswerUpl" name='option' onChange={(e) => setoptionMoney(e.target.value)}>
+                                <option className="AnswerUpl" value="Kosten:">Kosten: </option>
+                                <option className="AnswerUpl" value="Ja">Ja</option>
+                                <option className="AnswerUpl" value="Nee">Nee</option>
+                            </select>
+                            {/* question if the tool supports macOS */}
+                            <p className="titelAnswere">Ondersteunt macOS: {val.optionMac}</p>
+                            {/* update the tool */}
+                            <select className="AnswerUpl" name='optionMac' onChange={(e) => setnewoptionMac(e.target.value)}>
+                                <option className="AnswerUpl" value="OPTIES:">Opties:</option>
+                                <option className="AnswerUpl" value="Ja">Ja</option>
+                                <option className="AnswerUpl" value="Nee">Nee</option>
+                            </select>
+                            
+                            <div className="PutBtnInline">
+                                {/* delete an tool*/}
+                                <button className="deletebtntool" onClick={() => deleteItem(val._id)}>Verwijder tool</button>
+                                {/* Update an tool */}
+                                <a href="/createtool"><button  onClick={() => UpdateItem(val._id)} className="UpdateBtn" >Update tool</button></a>
+                            </div>
+                        </div>
                         
-                        <div className="PutBtnInline">
-                        <button className="deletebtntool" onClick={() => deleteItem(val._id)}>Verwijder tool</button>
-                        <a href="/createtool"><button  onClick={() => UpdateItem(val._id)} className="UpdateBtn" >Update tool</button></a>
-                        
-                    </div></div>
-                    
-                );
-                })
-            }
-                 </div>
+                    );
+                    })
+                }
+            </div>
         </div>
         
  }

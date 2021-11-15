@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Note = require("../models/qestModel");//Users/jdriel/Documents/web-db-app/models/answerModel.js
+const Note = require("../models/qestModel");
 const Tool = require("../models/toolModel");
 
 
-// This is the route where the data is sended
+// route to post a new answer on the question
 router.route("/create").post((req, res)=>{
     const title = req.body.title;
     const url = req.body.url;
@@ -25,16 +25,11 @@ router.route("/create").post((req, res)=>{
             newNote.save();
 })
 
+// get all tools
 router.route("/read").get((req,res)=>{
     Tool.find()
     .then((foundTools) => res.json(foundTools))
     .catch((err) => res.status(400).json("Error: "+err));
 })
-
-// router.route('/read/filter?search=${}').get((req,res)=>{
-//     Tool.find()
-//     .then((foundTools) => res.json(foundTools))
-//     .catch((err) => res.status(400).json("Error: "+err));
-// })
 
 module.exports = router;

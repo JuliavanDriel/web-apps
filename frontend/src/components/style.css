@@ -353,3 +353,51 @@
     margin: 0px 45%;
   } */
 
+  .JMscriptBtn{
+    margin: 40px 12px;
+    color: white;
+    background-color: #C7579A;
+    font-size: 14px;
+    text-align: center;
+    border: 2px solid #C7579A;
+    width: 278px;
+    height: 101px;
+    cursor: pointer;
+  }
+
+  .pane{
+      height: 50vh;
+      display: flex;
+  }
+
+  .editor-container {
+      flex-grow: 1;
+      flex-basis: 0;
+      display: flex;
+      flex-direction: column;
+      padding: .5rem;
+  }
+
+  .editor-title {
+      display: flex;
+      justify-content: space-between;
+      background-color: #86A69D;
+      color: white;
+      padding: .5rem .5rem .5rem 1rem;
+      border-top-right-radius: .5rem;
+      border-top-left-radius: .5rem;
+  }
+  .codeMirror {
+      height: 100% !important;
+  }
+
+  .code-mirror-wrapper{
+      flex-grow: 1;
+      border-top-right-radius: .5rem;
+      border-top-left-radius: .5rem;
+      overflow: hidden;
+  }
+  
+  
+
+

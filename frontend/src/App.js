@@ -7,7 +7,9 @@ import Infop from './components/Infop';
 import Home from "./components/Home";
 import CreateTool from "./components/UploadTool";
 import Renderpage from "./components/RenderScript";
-// import DataFetch from "./components/DataFetch";
+import RenderJmeterpage from "./components/JMeter";
+import RenderSeleniumpage from "./components/Selenium";
+
 
 
 // defines the routes
@@ -43,6 +45,14 @@ return (
     <Route path="/render">
       <Renderpage/>
       {/* qpage */}
+    </Route>
+    <Route path="/JMeter">
+      <RenderJmeterpage/>
+      {/* RenderJmeterpage */}
+    </Route>
+    <Route path="/Selenium">
+      <RenderSeleniumpage/>
+      {/* renderSeleniumpage */}
     </Route>
   </Router>
 )
