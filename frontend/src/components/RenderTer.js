@@ -1,6 +1,6 @@
-import React from "react";
+// import React from "react";
 
-const RenderTer = () =><span>Prompt: </span>
+const RenderTer = () =><span>Prompt: </span>/////////////////////
 
 export default RenderTer;
 

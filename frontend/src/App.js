@@ -7,9 +7,10 @@ import Infop from './components/Infop';
 import Home from "./components/Home";
 import CreateTool from "./components/UploadTool";
 import Renderpage from "./components/RenderScript";
-import RenderJmeterpage from "./components/JMeter";
+// import JMeterpage from "./components/JMeter";
 import RenderSeleniumpage from "./components/Selenium";
-
+import JMeterScriptpage from './components/JMeterScript';
+import RunnerScriptpage from './components/RunnerScriptpage'
 
 
 // defines the routes
@@ -46,13 +47,20 @@ return (
       <Renderpage/>
       {/* qpage */}
     </Route>
-    <Route path="/JMeter">
-      <RenderJmeterpage/>
-      {/* RenderJmeterpage */}
-    </Route>
+    {/* <Route path="/JMeter">
+      <JMeterpage/>
+      {/* RenderSeleniumpage */}
+    {/* </Route> */} 
     <Route path="/Selenium">
       <RenderSeleniumpage/>
       {/* renderSeleniumpage */}
+    </Route>
+    <Route path="/JMeterScript">
+      <JMeterScriptpage/>
+      {/* renderJMeterpage */}
+    </Route>
+    <Route path="/RunnerScriptpage">
+      <RunnerScriptpage/>
     </Route>
   </Router>
 )

@@ -17,6 +17,7 @@ return(
             <span>{item}</span>
             </div>
         ))}
+    
     </div>
 )
 }

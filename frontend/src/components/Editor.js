@@ -11,6 +11,7 @@ function Editor(props){
     const{
         language,
         displayName,
+        value,
         onChange
     } = props
 
@@ -20,7 +21,8 @@ function handleChange(editor, data, value){
 }
 
 // get data from another page
-const scrip = localStorage.getItem("textvalue") 
+const scrip = localStorage.getItem("textvalue")
+const scrip2 = localStorage.getItem("Allqest") 
 
     return (
         <div className="editor-container">
@@ -29,7 +31,8 @@ const scrip = localStorage.getItem("textvalue")
             </div>
             <ControlledEditor
                 onBeforeChange ={handleChange}
-                value={scrip}
+                value={value}
+                id="textv"
                 className="code-mirror-wrapper"
                 options={{
                     lineWrapping: true,

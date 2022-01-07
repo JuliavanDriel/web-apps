@@ -1,7 +1,0 @@
-const text = 'const {Builder, By, Key, util} = require("seleniumwebdriver");';
-const text2 = 'require("chromedriver");';
-const text3 = 'async function example(){';
-const text4 = 'let driver = await new Builder().forBrowser("chrome")';
-const text5 = 'await driver.get("");';
-const text6 = 'await driver.findElement(By.name("q")).sendKeys("Selenium Test", Key.RETURN);}';
-const text7 = 'example();';
