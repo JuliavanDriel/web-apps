@@ -1,7 +1,8 @@
 const {Builder, By, Key, util} = require("selenium-webdriver");
-require("test");
+require("chromedriver");
 async function example(){
-let driver = await new Builder().forBrowser("test").build();
-await driver.get("test");
-await driver.findElement(By.name("test")).sendKeys("test", Key.RETURN);}
+let driver = await new Builder().forBrowser("chrome").build();
+await driver.get("http://localhost:3000/vragenlijst");
+await driver.quit();
+ }
 example();
