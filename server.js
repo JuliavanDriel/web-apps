@@ -2,25 +2,31 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-
+const path = require('path');
 
 app.use(cors());
 app.use(express.json());
 
-// //connect to mongodb
-mongoose.connect('mongodb+srv://JohnDoe:@webdb.l1qjh.mongodb.net/notesDB',{
-    useUnifiedTopology: true,
-    useNewUrlParser : true,
+// Connect to mongodb
+mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesDB',{
+   useNewUrlParser: true,
+   useUnifiedTopology:true,
 }).then(console.log('connected to mongoDB!'))
 
-// uses the routes
+// Uses the routes
 app.use("/",require("./routes/qestRoutes"))
 app.use("/",require("./routes/toolRoutes"))
-app.use("/",require("./routes/ScriptRoutes"))
+app.use("/",require("./routes/scriptRoutes"))
 app.use("/",require("./routes/saveScriptRoutes"))
 
-// If there is a connection, it will return that it is running
-app.listen(3001, function(){
-    console.log("server is running on 3001");
-})
+
+const fileRoutes = require('./routes/file-upload-routes');
+
+const port = process.env.PORT || 3001;
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/api', fileRoutes.routes);
+
+app.listen(port, () => console.log(`server is listening on url http://localhost:${port}`));
 
