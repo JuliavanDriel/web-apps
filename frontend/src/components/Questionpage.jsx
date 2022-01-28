@@ -1796,15 +1796,15 @@ function handleDifferentTools(event){
   // This is where the HTML begins
   return (
     <div className="contain">
-      <div className="greenArray">
+      <div className="greenArray"> 
         {/* Title of the page */}
         <div>
-          <h1 className="TitleQ">Testen. Testen. Testen.</h1>
+          <h1 className="TitleQ" id='TitleQ'>Testen. Testen. Testen.</h1>
         </div>
       </div>
       <div className='body'>
       {/* Subtitle of the page */}
-      <p className="subTextH">Vul de vragenlijst in, om een script te maken.</p>
+      <p className="subTextH">Vul de vragenlijst in, om een testscript aan te maken.</p>
 
       <div className="form-groups">
         <h3 className="subtitleQest">Filteren testtools</h3>
