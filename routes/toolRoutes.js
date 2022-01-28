@@ -3,7 +3,7 @@ const router = express.Router();
 const Tool = require("../models/toolModel");
 
 // route to post a new tool
-router.route("/createTool").post((req, res)=>{
+router.route("/testtoolToevoegen").post((req, res)=>{
     const title = req.body.title;
     const functioneel = req.body.functioneel;
     const performance = req.body.performance;

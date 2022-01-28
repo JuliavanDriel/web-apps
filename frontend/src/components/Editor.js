@@ -20,10 +20,6 @@ function handleChange(editor, data, value){
     onChange(value)
 }
 
-// get data from another page
-const scrip = localStorage.getItem("textvalue")
-const scrip2 = localStorage.getItem("Allqest") 
-
     return (
         <div className="editor-container">
             <div className="editor-title">

@@ -50,7 +50,7 @@ function UploadTool() {
         alert("De testtool is opgeslagen");
         event.preventDefault();
 
-        // HET AANMAKEN VAN EEN NIEUWE TOOL
+        // Create a new testtool
         const newTool = {
             title: input.title,
             functioneel: functioneel,
@@ -60,7 +60,7 @@ function UploadTool() {
             optionMac: optionMac,
         };
 
-        axios.post("http://localhost:3000/createTool", newTool);
+        axios.post("http://localhost:3000/testtoolToevoegen", newTool);
     }
 
     // Maps All the values in an arraqy
@@ -115,9 +115,11 @@ function UploadTool() {
                     {/* <p class="haken">>></p> */}
                 </div>
             </div>
+            <div className='body'>
             <div>
+                <h3 className="subTextUpL">Testool opslaan in database</h3>
                 <p className="subTextUpL">
-                    Vul hier de naam van de nieuwe testtool in:{" "}
+                    Vul hier de naam van de nieuwe testtool in:
                 </p>
                 <input
                     onChange={handleChange}
@@ -128,7 +130,7 @@ function UploadTool() {
                 ></input>
                 <div>
                     <p className="subTextUpL">
-                        Welke test kan er met de tool uitgevoerd worden?
+                        Welke testsoort kan er met de tool uitgevoerd worden?
                     </p>
                     <input
                         type="checkbox"
@@ -175,7 +177,6 @@ function UploadTool() {
             <button onClick={handleClick} className="AddBtn">
                 Voeg testtool toe
             </button>
-            <h1>Hier moet een zoek functie komen</h1>
 
             <h1 className="ShowTools">Testtools</h1>
             <div className="gridContainer">
@@ -215,7 +216,7 @@ function UploadTool() {
                                 {/* delete an tool*/}
                                 <button className="deletebtntool" onClick={() => deleteItem(val._id)}>Verwijder tool</button>
                                 {/* Update an tool */}
-                                <a href="/createtool"><button  onClick={() => UpdateItem(val._id)} className="UpdateBtn" >Update tool</button></a>
+                                <a href="/testtoolToevoegen"><button  onClick={() => UpdateItem(val._id)} className="UpdateBtn" >Update tool</button></a>
                             </div>
                         </div>
                         
@@ -223,6 +224,7 @@ function UploadTool() {
                     })
                 }
             </div>
+        </div>
         </div>
     );
 }

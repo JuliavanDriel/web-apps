@@ -9,6 +9,7 @@ const FullScriptSchema = {
     CypAssertion:String,
     CypAll:String,
     selenBasic: String,
+    scriptWeb: String
 }
 
 const FullScript = mongoose.model("FullScript", FullScriptSchema);

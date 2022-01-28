@@ -13,6 +13,7 @@ router.route("/SaveScript").post((req, res)=>{
         CypBasic:req.body.CypBasic,
         CypAssertion:req.body.CypAssertion,
         CypAll:req.body.CypAll,
+        scriptWeb: req.body.scriptWeb,
             });
             newSaveScript.save()
             .then((FullScrip) => console.log(FullScrip))

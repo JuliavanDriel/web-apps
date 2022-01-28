@@ -384,13 +384,8 @@ function QuestionPage() {
         addList3(filterArray2, listFunc);
         console.log(filterArray2, "filter functioneel en performance");
       } else if ((security === true) & (performance === false)) {
-        // const myDiv = document.getElementById("Idperf");
         const myDiv2 = document.getElementById("Idsec");
-        // const myDiv3 = document.getElementById("Idperf");
-        // console.log("shoild removed")
         var text7 = "<p></p>";
-        // myDiv.innerHTML = text7
-        // myDiv3.innerHTML = text7
         myDiv2.innerHTML = text7;
         const filterArray = tools.filter((tool) => tool.functioneel === "true");
         const filterArray2 = tools.filter(
@@ -401,9 +396,8 @@ function QuestionPage() {
         );
         console.log("hello you went here");
         addList3(filterArray2, listsec);
-        // console.log(filterArray2, "filter functioneel en security by fync")
       } else if ((security === true) & (performance === true)) {
-        const GetidSec = document.getElementById("Idsec"); ////////////////////////////////////////////////////////////////////////////////////////////////////
+        const GetidSec = document.getElementById("Idsec");
         const GetidFunc = document.getElementById("IdFunc");
         const GetidPerf = document.getElementById("Idperf");
         console.log("remove lijsten func en perf");
@@ -411,7 +405,6 @@ function QuestionPage() {
         GetidSec.innerHTML = NewLineText;
         GetidFunc.innerHTML = NewLineText;
         GetidPerf.innerHTML = NewLineText;
-        // const filterArray = tools.filter(tool => tool.performance === 'true')
         const filterArray2 = tools.filter(
           (tool) =>
             (tool.performance === "true") &
@@ -489,16 +482,6 @@ function QuestionPage() {
         addList3(filterArray2, listPerf);
         console.log(filterArray2);
       } else if ((security === true) & (functioneel === true)) {
-        // const myDiv = document.getElementById("Idperf");////////////////////////////////////////////////////////////////////////////////////////////////////
-        //     // const myDiv = document.getElementById("Idperf");
-        //     console.log("remove lijsten func en sec")
-        //     var text2 = "<p></p>";
-        //     myDiv.innerHTML = text2
-        //     // const filterArray = tools.filter(tool => tool.performance === 'true')
-        //     const filterArray2 = tools.filter(tool => tool.performance === 'true' &tool.security === 'true'& tool.functioneel === 'true')
-
-        //     addList3(filterArray2,listsec)
-        //     console.log(filterArray2, "ben je hier?")
         console.log("hello world2");
       } else {
         const myDiv = document.getElementById("Idperf");
@@ -578,7 +561,6 @@ function QuestionPage() {
         myDiv2.innerHTML = text;
         myDiv.innerHTML = text;
         myDiv3.innerHTML = text;
-        // const filterArray = tools.filter(tool => tool.security === 'true')
         const filterArray2 = tools.filter(
           (tool) =>
             (tool.security === "true") &
@@ -670,6 +652,10 @@ function QuestionPage() {
     search: "",
     savefile: "",
     idkey: "",
+    btnid:'',
+    SearchId:"",
+    TextSearch:"",
+    BtnText:'',
   });
   ///////////////////////////////////////////cypresss
   // Cypress state of buttons, different scripts
@@ -873,12 +859,8 @@ function filterCheckToolBtn(e) {
     
     }
 }
+/////////////////////////////////////////////////////////////// hier is het voorbeeld
 
-function filterCheckDifTool(e) {
-    if (e === true) {
-
-    }
-}
 
 function handleDifferentTools(event){
     setOptionDifTool(event.target.value)
@@ -1225,34 +1207,159 @@ function handleDifferentTools(event){
     console.log(inputSelenium);
   }
 
-  function save() {
-    setRenderSelenium(true);
+  const [checkSeleniumBtnId,setcheckSeleniumBtnId] = useState(false)
+  const [checkSeleniumBtnSearch,setcheckSeleniumBtnSearch] = useState(false)
+  const [checkSeleniumBtnText,setcheckSeleniumBtnText] = useState(false)
+
+  function save(event) {
+    setRenderSelenium(event.target.value);////////////////////////////////// hier is het script
     // Text for the basic script
-    setselenBasic(
-      'const {Builder, By, Key, util} = require("selenium-webdriver");' +
-        "\n" +
-        'require("' +
-        inputSelenium.title +
-        '");' +
-        "\n" +
-        "async function example(){" +
-        "\n" +
-        'let driver = await new Builder().forBrowser("' +
-        inputSelenium.chrome +
-        '").build();' +
-        "\n" +
-        'await driver.get("' +
-        inputSelenium.url +
-        '");' +
-        "\n" +
-        'await driver.findElement(By.name("' +
-        inputSelenium.idkey +
-        '")).sendKeys("' +
-        inputSelenium.search +
-        '", Key.RETURN);}' +
-        "\n" +
-        "example();"
-    );
+    
+    if(checkSeleniumBtnId && !checkSeleniumBtnSearch && !checkSeleniumBtnText){
+      setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
+        
+        'await driver.quit();'+ "\n" +
+       ' }'+ "\n" +
+        'example();'
+      )}
+      if(checkSeleniumBtnSearch && !checkSeleniumBtnId && !checkSeleniumBtnText){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+        'await driver.quit();'+ "\n" +
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+
+      if(checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+      if(checkSeleniumBtnText && checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+      if(checkSeleniumBtnText && !checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
+       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+      if(!checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'console.log('+"Result is:"+ "data);'+ "+"\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+      if(checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
+       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      }
+      if(!checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setselenBasic(
+        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+        'require("' +inputSelenium.title + '");' +"\n" +
+       "async function example(){" +"\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'await driver.quit();'+ "\n" +
+       
+       ' }'+ "\n" +
+        'example();'
+        )
+      
+  }
+    // setselenBasic(
+    //   if(checkSeleniumBtn){}
+    //   'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
+    //     'require("' +inputSelenium.title + '");' +"\n" +
+    //     "async function example(){" +"\n" +
+    //     'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+    //     'await driver.get("' +inputSelenium.url +'");' + "\n" +
+    //     'await driver.findElement(By.name("' +inputSelenium.idkey +'")).sendKeys("' + inputSelenium.search + '", Key.RETURN);}' +"\n" +
+    //     "example();" 
+
+//         const {Builder, By, Key, util} = require("selenium-webdriver");
+// require("chromedriver");
+// async function example(){
+// let driver = await new Builder().forBrowser("chrome").build();
+// await driver.get("http://localhost:3000/vragenlijst");
+// await driver.findElement(By.id("SeleniumBtn")).click();
+// await driver.findElement(By.id("InputSeleniumQ1")).sendKeys("chromedriver");
+// let data = await driver.findElement(By.id("SeleniumQ1")).getText();
+// console.log('Result is:'+ data);
+// await driver.quit();
+// }
+// example();
+        
+    // );
 
     // stores the item in an object to get it on the next page
     localStorage.setItem("Url", inputSelenium.url);
@@ -1506,7 +1613,7 @@ function handleDifferentTools(event){
         "</hashTree>" + "\n" + "</jmeterTestPlan>"
     );
 
-    console.log("works JM with 1 threath");
+    console.log("works JM with 1 thread");
   }
 
   function handleHTTPGroup() {
@@ -1719,15 +1826,16 @@ function handleDifferentTools(event){
           <h1 className="TitleQ">Testen. Testen. Testen.</h1>
         </div>
       </div>
+      <div className='body'>
       {/* Subtitle of the page */}
-      <p className="subTextH">Vul de vragenlijst in, om een script te maken</p>
+      <p className="subTextH">Vul de vragenlijst in, om een script te maken.</p>
 
-      <div className="form-group">
+      <div className="form-groups">
         <h3 className="subtitleQest">Filteren testtools</h3>
 
         {/* Question 1 */}
         <p className="subtitleQest">
-          Vraag 1: Wat voor soort test wilt u uitvoeren?
+          Wat voor soort test wil je uitvoeren?
         </p>
         <input
         id="checkFunctioneel"
@@ -1760,7 +1868,7 @@ function handleDifferentTools(event){
 
         {/* Question 2 */}
         <div>
-          <p test-id="Q2Title"className="subtitleQest">Vraag 2: Mag de tool geld kosten?</p>
+          <p test-id="Q2Title"className="subtitleQest">Mag de testtool geld kosten?</p>
           <select className="optionMoney" onChange={handleChange2}>
             <option value="Kosten">Kosten</option>
             <option className="subtitleQest" value="Ja">
@@ -1773,7 +1881,7 @@ function handleDifferentTools(event){
         </div>
         {/* filter */}
         <div>
-          <h4 className="filterTitle">Beste tool uit de filter: </h4>
+          <h4 className="filterTitle">Resultaat:</h4>
           <div id="IdFunc" className="listFunc"></div>
           <div id="Idsec" className="listSec"></div>
           <div id="Idperf" className="listPerf"></div>
@@ -1790,6 +1898,7 @@ function handleDifferentTools(event){
           onClick={() => setSeleniumTrue(!seleniumTrue)}
           className="btnSeleniumTestscript"
           name="testtype"
+          id='SeleniumBtn'
         >
           Selenium
         </button>
@@ -1798,6 +1907,7 @@ function handleDifferentTools(event){
           onClick={() => setJmeterTrue(!jmeterTrue)}
           className="btnJMeterTestscript"
           name="testtype"
+          id='JmeterBtn'
         >
           JMeter
         </button>
@@ -1828,69 +1938,91 @@ function handleDifferentTools(event){
 
         {seleniumTrue && (
           <div className="seleniumscript">
-            <p className="QScripts">Selenium</p>
-            <h1 className="title-script">Basis script</h1>
+            <h4 className="QScripts">Selenium</h4>
             <h3 className="createScript">Maak een script:</h3>
+            
             <div className="script">
-              <p className="QuestScript">
-                Welke browser zou je willen gebruiken? (chromedriver)
-              </p>
-              <form action="RunnerScriptpage">
+              <p className="QuestScript" id='SeleniumQ1'>Welke browser zou je willen gebruiken? (chromedriver)</p>
+              <form action="uitvoerenScript">
                 {/* Input fields for the changes on a script */}
                 <input
                   onChange={handleChangeSelenium}
                   id="InputSeleniumQ1"
                   name="title"
                   value={inputSelenium.title}
-                  type="text"
-                ></input>
-                <p className="QuestScript">
-                  Welke browser zou je willen gebruiken? (chrome)
-                </p>
+                  type="text">
+                </input>
+
+                <p className="QuestScript">Welke browser zou je willen gebruiken? (chrome)</p>
                 <input
                   onChange={handleChangeSelenium}
                   id="InputSeleniumQ2"
                   name="chrome"
                   value={inputSelenium.chrome}
-                  type="text"
-                ></input>
-                <p className="QuestScript">
-                  Welke Url zou je willen gebruiken om een test op uit te
-                  voeren? (http://example.nl)
-                </p>
+                  type="text">
+                </input>
+                
+                <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
                 <input
                   onChange={handleChangeSelenium}
                   id="InputSeleniumQ3"
                   name="url"
                   value={inputSelenium.url}
-                  type="text"
-                ></input>
-                <p className="QuestScript">
-                  Welke tekst zou je willen versturen?
-                </p>
+                  type="text">
+                </input>
+
+                <p className="QuestScript">Wat zou je willen testen?</p>
+                
                 <input
-                  onChange={handleChangeSelenium}
-                  id="InputSeleniumQ4"
-                  name="search"
-                  value={inputSelenium.search}
-                  type="text"
-                ></input>
-                <p className="QuestScript">
-                  Hoe heet de id die je wilt gaan testen?
-                </p>
+          id="btnid"
+          type="checkbox"
+          className="CheckTitle"
+          value={checkSeleniumBtnId}
+          onChange={(e) => setcheckSeleniumBtnId(e.target.checked)}
+          name="btnid"
+          >
+          </input> 
+         <span className="subtitleQest">knop klikken</span>
+            {checkSeleniumBtnId && <div>
+              <p className="QuestScript">Wat is het id van de knop?</p>
+                <input onChange={handleChangeSelenium} id="btnid" name="btnid" value={inputSelenium.btnid} type="text"></input>
+                </div>}
+
                 <input
-                  onChange={handleChangeSelenium}
-                  id="InputSeleniumQ5"
-                  name="idkey"
-                  value={inputSelenium.idkey}
-                  type="text"
-                ></input>
+          id="CheckTitle"
+          type="checkbox"
+          className="CheckTitle"
+          value={checkSeleniumBtnSearch}
+          onChange={(e) => setcheckSeleniumBtnSearch(e.target.checked)}
+          name="testtitle">
+          </input> 
+         <span className="subtitleQest">Input veld invullen</span>
+            {checkSeleniumBtnSearch && <div>
+              <p className="QuestScript">Wat is het id van de input veld?</p>
+                <input onChange={handleChangeSelenium} id="SearchId" name="SearchId" value={inputSelenium.SearchId} type="text"></input>
+                <p className="QuestScript">Wat wil je in de inputveld schrijven?</p>
+                <input onChange={handleChangeSelenium} id="TextSearch" name="TextSearch" value={inputSelenium.TextSearch} type="text"></input>
+                </div>}
+
+
+                <input
+          id="CheckTitle"
+          type="checkbox"
+          className="CheckTitle"
+          value={checkSeleniumBtnText}
+          onChange={(e) => setcheckSeleniumBtnText(e.target.checked)}
+          name="testtitle">
+          </input> 
+         <span className="subtitleQest">Tekst op pagina</span>
+            {checkSeleniumBtnText && <div>
+              <p className="QuestScript">Wat is het id van de tekst?</p>
+                <input onChange={handleChangeSelenium} id="BtnText" name="BtnText" value={inputSelenium.BtnText} type="text"></input>
+                </div>}
                 <br />
                 <br />
+
                 {/* save button and go to next page */}
-                <button id="CreateScriptBtn" className="CreateScritbtn" onClick={save}>
-                  Maak script aan
-                </button>
+                <button id="CreateScriptBtn" className="CreateScritbtn" onClick={save}>Maak script aan</button>
               </form>
             </div>
           </div>
@@ -1898,309 +2030,173 @@ function handleDifferentTools(event){
 
         {/* JMeter script  */}
         {/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!JMeter!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-        {
-          jmeterTrue && (
+        {jmeterTrue && (
             <div className="containers">
-              <p className="QScripts">JMeter</p>
-              <p className="QScripts">
-                Kies wat voor soort script zou je willen maken?
-              </p>
+              <h4 className="QScripts">JMeter</h4>
+              <p className="QScriptsQ">Kies wat voor soort script zou je willen maken?</p>
+             
               {/* three buttons to choose from */}
-              <button
-                className="CreateJMScript"
-                onClick={() => setIsToggled(!isToggled)}
-              >
-                Klein script
-              </button>
-              <button
-                className="CreateScriptHTTP"
-                onClick={() => setIsToggledHttp(!isToggledHttp)}
-              >
-                HTTP
-              </button>
-              <button
-                className="CreateScriptAll"
-                onClick={() => setisToogledAll(!isToogledAll)}
-              >
-                All
-              </button>
-
-              {/* hier moet een if statement komen die ervoor zorgt dat de goede script wordt laten zien! */}
+              <button className="CreateJMScript" onClick={() => setIsToggled(!isToggled)}>Thread</button>
+              <button className="CreateScriptHTTP" onClick={() => setIsToggledHttp(!isToggledHttp)}>HTTP</button>
+              <button className="CreateScriptAll" onClick={() => setisToogledAll(!isToogledAll)}>All</button>
 
               {/* Render the basic script JMeter with questions */}
               {isToggled && (
                 <div className="basicScriptJM">
-                  <form action="RunnerScriptpage">
-                    <h1 className="JMbasicTitle">Basis</h1>
+                  <form action="uitvoerenScript">
+                    
                     {/* Q1 */}
-                    <p>Hoe moet je testplan heten?</p>
+                    <p className="QuestScript">Hoe moet je testplan heten?</p>
                     {/* Input fields for the changes on a script */}
                     <input
                       onChange={handleInput}
                       id="txt"
                       name="title"
                       value={inputJMeter.title}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     {/* Q2 */}
-                    <p>
-                      Hoeveel user per threath zou je willen?(vul een getal in,
-                      1)
-                    </p>
+                    <p className="QuestScript">Hoeveel user per thread zou je willen? (vul een getal in)</p>
                     <input
                       onChange={handleChangeJM}
                       id="txt"
                       name="aantalUsers"
                       value={inputJMeter.aantalUsers}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     {/* Q3 */}
-                    <p className="QuestScript">
-                      Hoeveel threath groups zou je willen hebben?
-                    </p>
-                    <select
-                      className="optionThreathGroup"
-                      onChange={handleThreathGroup}
-                    >
+                    <p className="QuestScript">Hoeveel thread groepen moeten in het testscript komen?</p>
+                    <select className="optionThreathGroup" onChange={handleThreathGroup}>
                       <option value="Hoeveel">Hoeveel</option>
-                      <option className="subtitleQest" value="1">
-                        1
-                      </option>
-                      <option className="subtitleQest" value="2">
-                        2
-                      </option>
+                      <option className="subtitleQest" value="1">1</option>
+                      <option className="subtitleQest" value="2">2</option>
                     </select>
                     <br />
                     <br />
+
                     {/* save button and go to next page */}
-                    <button className="CreateJMScript" onClick={saveJM}>
-                      Maak script aan
-                    </button>
+                    <button className="CreateJMScript" onClick={saveJM}>Maak script aan</button>
                   </form>
                 </div>
               )}
+              
               {isToggledHttp && !isToggled && (
-                <form action="RunnerScriptpage">
-                  <h1 className="TitleJMHttp">HTTP</h1>
+                <form action="uitvoerenScript">
+                  
                   {/* Input fields for the changes on a script */}
-                  {/* wat wil je testen? leeg script, HTTP,  */}
-                  <p>Hoe moet je testplan heten?</p>
+                  <p className="QuestScript">Hoe moet je testplan heten?</p>
                   <input
                     onChange={handleInput}
                     id="txt"
                     name="title"
                     value={inputJMeter.title}
-                    type="text"
-                  ></input>
-                  <p>
-                    Hoeveel user per threath zou je willen?(vul een getal in, 1)
-                  </p>
+                    type="text">
+                    </input>
+                  
+                  <p className="QuestScript">Hoeveel user per thread zou je willen?(vul een getal in)</p>
                   <input
                     onChange={handleChangeJM}
                     id="txt"
                     name="aantalUsers"
                     value={inputJMeter.aantalUsers}
-                    type="text"
-                  ></input>
-                  <p className="QuestScript">
-                    Welke Url zou je willen gebruiken om een test op uit te
-                    voeren? (http://example.nl)
-                  </p>
+                    type="text">
+                  </input>
+                  
+                  <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
                   <input
                     onChange={handleInput}
                     name="url"
                     value={inputJMeter.url}
-                    type="text"
-                  ></input>
-                  <p className="QuestScript">
-                    Welke methode zou je willen gebruiken? (GET,POST,DELETE)
-                  </p>
-                  <select
-                    className="optionSchedularGroup"
-                    onChange={handleMethodGroup}
-                  >
+                    type="text">
+                  </input>
+                  <p className="QuestScript">Welke methode zou je willen gebruiken? (GET,POST,DELETE)</p>
+                  <select className="optionSchedularGroup" onChange={handleMethodGroup}>
                     <option value="method">Methode</option>
-                    <option className="subtitleQest" value="GET">
-                      GET
-                    </option>
-                    <option className="subtitleQest" value="POST">
-                      POST
-                    </option>
-                    <option className="subtitleQest" value="HEAD">
-                      HEAD
-                    </option>
-                    <option className="subtitleQest" value="PUT">
-                      PUT
-                    </option>
-                    <option className="subtitleQest" value="OPTION">
-                      OPTION
-                    </option>
-                    <option className="subtitleQest" value="TRACE">
-                      TRACE
-                    </option>
-                    <option className="subtitleQest" value="DELETE">
-                      DELETE
-                    </option>
-                    <option className="subtitleQest" value="PATCH">
-                      PATCH
-                    </option>
-                    <option className="subtitleQest" value="PROPFIND">
-                      PROPFIND
-                    </option>
-                    <option className="subtitleQest" value="PROPPATCH">
-                      PROPPATCH
-                    </option>
-                    <option className="subtitleQest" value="MKCOL">
-                      MKCOL
-                    </option>
-                    <option className="subtitleQest" value="COPY">
-                      COPY
-                    </option>
-                    <option className="subtitleQest" value="LOCKE">
-                      LOCKE
-                    </option>
-                    <option className="subtitleQest" value="MOVE">
-                      MOVE
-                    </option>
-                    <option className="subtitleQest" value="UNLOCKE">
-                      UNLOCKE
-                    </option>
-                    <option className="subtitleQest" value="REPORT">
-                      REPORT
-                    </option>
-                    <option className="subtitleQest" value="SEARCH">
-                      SEARCH
-                    </option>
-                    <option className="subtitleQest" value="MKCALENDAR">
-                      MKCALENDAR
-                    </option>
+                    <option className="subtitleQest" value="GET">GET</option>
+                    <option className="subtitleQest" value="POST">POST</option>
+                    <option className="subtitleQest" value="HEAD">HEAD</option>
+                    <option className="subtitleQest" value="PUT">PUT</option>
+                    <option className="subtitleQest" value="OPTION">OPTION</option>
+                    <option className="subtitleQest" value="TRACE">TRACE</option>
+                    <option className="subtitleQest" value="DELETE">DELETE</option>
+                    <option className="subtitleQest" value="PATCH">PATCH</option>
+                    <option className="subtitleQest" value="PROPFIND">PROPFIND</option>
+                    <option className="subtitleQest" value="PROPPATCH">PROPPATCH</option>
+                    <option className="subtitleQest" value="MKCOL">MKCOL</option>
+                    <option className="subtitleQest" value="COPY">COPY</option>
+                    <option className="subtitleQest" value="LOCKE">LOCKE</option>
+                    <option className="subtitleQest" value="MOVE">MOVE</option>
+                    <option className="subtitleQest" value="UNLOCKE">UNLOCKE</option>
+                    <option className="subtitleQest" value="REPORT">REPORT</option>
+                    <option className="subtitleQest" value="SEARCH">SEARCH</option>
+                    <option className="subtitleQest" value="MKCALENDAR">MKCALENDAR</option>
                   </select>
-
-                  {/* <p className='QuestScript'>Hoeveel Threath groups zou je willen hebben</p> */}
-                  {/* <select className='optionThreathGroup' onChange={handleHTTPGroup}>
-                <option  value="Hoeveel">Hoeveel</option>
-                <option className="subtitleQest" value="1">1</option>
-                <option className="subtitleQest" value="2">2</option>
-                </select> */}
-
                   <br />
                   <br />
+
                   {/* save button and go to next page */}
-                  <button
-                    className="CreateScriptHTTP"
-                    onClick={handleHTTPGroup}
-                  >
-                    Maak script aan
-                  </button>
+                  <button className="CreateScriptHTTP" onClick={handleHTTPGroup}>Maak script aan</button>
                 </form>
+
               )}
               {isToogledAll && (
-                <form action="RunnerScriptpage">
+                <form action="uitvoerenScript">
                   {/* Input fields for the changes on a script */}
-                  {/* wat wil je testen? leeg script, HTTP,  */}
-                  <h1>Alles</h1>
                   <p className="QuestScript">Hoe moet je script heten?</p>
                   <input
                     onChange={handleInput}
                     id="txt"
                     name="title"
                     value={inputJMeter.title}
-                    type="text"
-                  ></input>
-                  <p className="QuestScript">
-                    Hoeveel user per threath zou je willen?(vul een getal in, 1)
-                  </p>
+                    type="text">
+                  </input>
+
+                  <p className="QuestScript">Hoeveel user per thread zou je willen?(vul een getal in, 1)</p>
                   <input
                     onChange={handleChangeJM}
                     id="txt"
                     name="aantalUsers"
                     value={inputJMeter.aantalUsers}
-                    type="integer"
-                  ></input>
-                  <p className="QuestScript">
-                    Welke Url zou je willen gebruiken om een test op uit te
-                    voeren? (http://example.nl)
-                  </p>
+                    type="integer">
+                  </input>
+
+                  <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
                   <input
                     onChange={handleInput}
                     name="url"
                     value={inputJMeter.url}
-                    type="text"
-                  ></input>
+                    type="text">
+                  </input>
+
                   <p className="QuestScript">Wilt u een schedular aanzetten?</p>
-                  <select
-                    className="optionSchedularGroup"
-                    onChange={handleSchedularGroup}
-                  >
+                  <select className="optionSchedularGroup" onChange={handleSchedularGroup}>
                     <option value="schedular">schema</option>
-                    <option className="subtitleQest" value="True">
-                      Ja
-                    </option>
-                    <option className="subtitleQest" value="False">
-                      Nee
-                    </option>
+                    <option className="subtitleQest" value="True">Ja</option>
+                    <option className="subtitleQest" value="False">Nee</option>
                   </select>
-                  <p className="QuestScript">
-                    Welke methode zou je willen gebruiken? (GET,POST,DELETE)
-                  </p>
-                  <select
-                    className="optionSchedularGroup"
-                    onChange={handleMethodGroup}
-                  >
+                  <p className="QuestScript">Welke methode zou je willen gebruiken? (GET,POST,DELETE)</p>
+                  <select className="optionSchedularGroup" onChange={handleMethodGroup}>
                     <option value="method">Methode</option>
-                    <option className="subtitleQest" value="GET">
-                      GET
-                    </option>
-                    <option className="subtitleQest" value="POST">
-                      POST
-                    </option>
-                    <option className="subtitleQest" value="HEAD">
-                      HEAD
-                    </option>
-                    <option className="subtitleQest" value="PUT">
-                      PUT
-                    </option>
-                    <option className="subtitleQest" value="OPTION">
-                      OPTION
-                    </option>
-                    <option className="subtitleQest" value="TRACE">
-                      TRACE
-                    </option>
-                    <option className="subtitleQest" value="DELETE">
-                      DELETE
-                    </option>
-                    <option className="subtitleQest" value="PATCH">
-                      PATCH
-                    </option>
-                    <option className="subtitleQest" value="PROPFIND">
-                      PROPFIND
-                    </option>
-                    <option className="subtitleQest" value="PROPPATCH">
-                      PROPPATCH
-                    </option>
-                    <option className="subtitleQest" value="MKCOL">
-                      MKCOL
-                    </option>
-                    <option className="subtitleQest" value="COPY">
-                      COPY
-                    </option>
-                    <option className="subtitleQest" value="LOCKE">
-                      LOCKE
-                    </option>
-                    <option className="subtitleQest" value="MOVE">
-                      MOVE
-                    </option>
-                    <option className="subtitleQest" value="UNLOCKE">
-                      UNLOCKE
-                    </option>
-                    <option className="subtitleQest" value="REPORT">
-                      REPORT
-                    </option>
-                    <option className="subtitleQest" value="SEARCH">
-                      SEARCH
-                    </option>
-                    <option className="subtitleQest" value="MKCALENDAR">
-                      MKCALENDAR
+                    <option className="subtitleQest" value="GET">GET</option>
+                    <option className="subtitleQest" value="POST">POST</option>
+                    <option className="subtitleQest" value="HEAD">HEAD</option>
+                    <option className="subtitleQest" value="PUT">PUT</option>
+                    <option className="subtitleQest" value="OPTION">OPTION</option>
+                    <option className="subtitleQest" value="TRACE">TRACE</option>
+                    <option className="subtitleQest" value="DELETE">DELETE</option>
+                    <option className="subtitleQest" value="PATCH">PATCH</option>
+                    <option className="subtitleQest" value="PROPFIND">PROPFIND</option>
+                    <option className="subtitleQest" value="PROPPATCH">PROPPATCH</option>
+                    <option className="subtitleQest" value="MKCOL">MKCOL</option>
+                    <option className="subtitleQest" value="COPY">COPY</option>
+                    <option className="subtitleQest" value="LOCKE">LOCKE</option>
+                    <option className="subtitleQest" value="MOVE">MOVE</option>
+                    <option className="subtitleQest" value="UNLOCKE">UNLOCKE</option>
+                    <option className="subtitleQest" value="REPORT">REPORT</option>
+                    <option className="subtitleQest" value="SEARCH">SEARCH</option>
+                    <option className="subtitleQest" value="MKCALENDAR">MKCALENDAR
                     </option>
                   </select>
 
@@ -2210,12 +2206,12 @@ function handleDifferentTools(event){
                     id="rampup"
                     name="rampup"
                     value={inputJMeter.rampup}
-                    type="text"
-                  ></input>
+                    type="text">
+                  </input>
                   <br />
                   <br />
+
                   {/* save button and go to next page */}
-                  {/* <button onClick={handleJMRenderScript}>hello</button> */}
                   <button className="CreateScriptAll" onClick={saveEverthing}>
                     Maak script aan
                   </button>
@@ -2225,31 +2221,15 @@ function handleDifferentTools(event){
           )
           // end of JMeter
         }
+
         {cypressTrue && (
           <div className="containers">
-            <p className="QScripts">Cypress</p>
-            <p className="QScripts">
-              Kies wat voor soort script zou je willen maken?
-            </p>
+            <h4 className="QScripts">Cypress</h4>
+            <p className="QScriptsQ">Kies wat voor soort script zou je willen maken?</p>
             {/* three buttons to choose from */}
-            <button
-              className="CreateJMScript"
-              onClick={() => setStateCyppressBasic(!stateCypressBasic)}
-            >
-              Eén klik script
-            </button>
-            <button
-              className="CreateScriptHTTP"
-              onClick={() => setCypress(!stateCypress)}
-            >
-              Assertion
-            </button>
-            <button
-              className="CreateScriptAll"
-              onClick={() => setCypressA(!stateCypressA)}
-            >
-              All
-            </button>
+            <button className="CreateJMScript" onClick={() => setStateCyppressBasic(!stateCypressBasic)}>Eén klik op website script</button>
+            <button className="CreateScriptHTTP" onClick={() => setCypress(!stateCypress)}>Assertion</button>
+            <button className="CreateScriptAll" onClick={() => setCypressA(!stateCypressA)}>All</button>
 
             {stateCypressBasic && (
               <div>
@@ -2259,47 +2239,43 @@ function handleDifferentTools(event){
                 <h3 className="createScript">Maak een script:</h3>
                 <div className="script">
                   <p className="QuestScript">Hoe moet je script heten?</p>
-                  <form action="RunnerScriptpage">
+                  <form action="uitvoerenScript">
                     {/* Input fields for the changes on a script */}
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="title"
                       value={inputCypress.title}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     <p className="QuestScript">Hoe moet het command heten?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="commandName"
                       value={inputCypress.commandName}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke Url zou je willen gebruiken om een test op uit te
-                      voeren? (http://example.nl)
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="url"
                       value={inputCypress.url}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de id van het object dat moet worden aangeklikt?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is het id van het object dat moet worden aangeklikt?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="elementName"
                       value={inputCypress.elementName}
-                      type="text"
-                    ></input>
-                    <button className="CreateScritbtn" onClick={saveCypress}>
-                      Maak script aan
-                    </button>
+                      type="text">
+                    </input>
+                    <button className="CreateScritbtn" onClick={saveCypress}>Maak script aan</button>
                   </form>
                 </div>
               </div>
@@ -2310,37 +2286,34 @@ function handleDifferentTools(event){
                 <h3 className="createScript">Maak een script:</h3>
                 <div className="script">
                   <p className="QuestScript">Hoe moet je script heten?</p>
-                  <form action="RunnerScriptpage">
+                  <form action="uitvoerenScript">
                     {/* Input fields for the changes on a script */}
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="title"
                       value={inputCypress.title}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+                    
                     <p className="QuestScript">Hoe moet command heten?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="commandName"
                       value={inputCypress.commandName}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke Url zou je willen gebruiken om een test op uit te
-                      voeren? (http://example.nl)
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="url"
                       value={inputCypress.url}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de id van het object dat moet worden aangeklikt?
-                    </p>
+                      type="text">
+                    </input>
+                    <p className="QuestScript">Wat is het id van het object dat moet worden aangeklikt?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
@@ -2385,98 +2358,88 @@ function handleDifferentTools(event){
                 <h3 className="createScript">Maak een script:</h3>
                 <div className="script">
                   <p className="QuestScript">Hoe moet je script heten?</p>
-                  <form action="RunnerScriptpage">
+                  <form action="uitvoerenScript">
                     {/* Input fields for the changes on a script */}
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="title"
                       value={inputCypress.title}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
                     <p className="QuestScript">Hoe moet command heten?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="commandName"
                       value={inputCypress.commandName}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke Url zou je willen gebruiken om een test op uit te
-                      voeren? (http://example.nl)
-                    </p>
+                      type="text">
+                    </input>
+                    
+                    <p className="QuestScript">Welke Url zou je willen gebruiken om een test op uit te voeren? (http://example.nl)</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="url"
                       value={inputCypress.url}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de id van het object dat moet worden aangeklikt?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is het id van het object dat moet worden aangeklikt?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="elementName"
                       value={inputCypress.elementName}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke actie zou je willen doen? (include)
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Welke actie zou je willen doen? (include)</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="action"
                       value={inputCypress.action}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke Url is het gewensde resultaat?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Welke Url is het gewensde resultaat?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="includeUrl"
                       value={inputCypress.includeUrl}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de css classname/id van het geteste object?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is de css classname/id van het geteste object?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="cssIdInput"
                       value={inputCypress.cssIdInput}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Welke tekst moet er worden geschreven in de input field?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Welke tekst moet er worden geschreven in de input field?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="userInput"
                       value={inputCypress.userInput}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de id van het object dat moet worden aangeklikt?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is het van het object dat moet worden aangeklikt?</p>
                     <input
                       onChange={handleChangeCypress}
                       id="txt"
                       name="expectedInput"
                       value={inputCypress.expectedInput}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
 
-                    <button className="CreateScritbtn" onClick={saveCypressAll}>
-                      Maak script aan
-                    </button>
+                    <button className="CreateScritbtn" onClick={saveCypressAll}>Maak script aan</button>
                   </form>
                 </div>
               </div>
@@ -2484,116 +2447,103 @@ function handleDifferentTools(event){
           </div>
         )}
         {/* end of cypress */}
+
          {/* {webdriver io} ///////////////////////////////////////////////////////////////webdriver*/}
         {WebDriverTrue && (
           <div className="containers">
-            <p className="QScripts">WebDriver</p>
+            <h4 className="QScripts">WebDriver</h4>
             {/* description */}
-            <p className="QScripts"> Beschrijf kort wat je wilt testen:</p>
-            <form action="RunnerScriptpage">
-            <input onChange={handleChangeWebdriverIO} id="description" name="description" value={inputWebdriver.description} type="text"></input>
-           
-            {/* <p className="QScripts">
-              Hoeveel testen zou je willen maken?
-            </p> */}
-            {/* <select className="optionDifferentTools" onChange={handleDifferentTools}>
-            <option value="Kosten">Aantal testen</option>
-            <option className="subtitleQest" value="1">
-              1
-            </option>
-            <option className="subtitleQest" value="2">
-              2
-            </option>
-          </select> */}
-          {/* {optionDifTool ==="1"&& */}
-          <div>
-            <p>Vul de Beschrijving in van de test:</p>
-            <input onChange={handleChangeWebdriverIO} id="descriptionTest" name="descriptionTest" value={inputWebdriver.descriptionTest} type="text"></input>
-            <p>Vul de URL in</p>
-            <input onChange={handleChangeWebdriverIO} id="url" name="url" value={inputWebdriver.url} type="text"></input>
-            <p>Wat wil je testen?</p>
             
-            <input
-        id="checkSearch"
-          type="checkbox"
-          className="checkSearch"
-          value={checkSearch}
-        //   onClick={(e) => filterCheckToolTitle(e.target.checked)}
-          onChange={(e) => setCheckSearch(e.target.checked)}
-          name="checkSearch"
-        ></input>
+            <p className="QScriptsQ">Hoe moet de test heten?</p>
+            <form action="uitvoerenScript">
+            <input onChange={handleChangeWebdriverIO} id="description" name="description" value={inputWebdriver.description} type="text"></input>
+          
+          <div>
+            <p className="QScriptsQ">Vul de beschrijving in van de test:</p>
+            <input onChange={handleChangeWebdriverIO} id="descriptionTest" name="descriptionTest" value={inputWebdriver.descriptionTest} type="text"></input>
+            <p className="QScriptsQ">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
+            <input onChange={handleChangeWebdriverIO} id="url" name="url" value={inputWebdriver.url} type="text"></input>
+            <p className="QScriptsQ">Wat wil je testen?</p>
+            
+            <input 
+            id="checkSearch"
+            type="checkbox"
+            className="checkSearch"
+            value={checkSearch}
+            onChange={(e) => setCheckSearch(e.target.checked)}
+            name="checkSearch">
+        </input>
         <span className="subtitleQest">Zoek resultaat</span>
             {checkSearch && <div>
-                <p>Wat is de id van de zoekbar?</p>
+                <p className="QScriptsQ">Wat is het id van de zoekbar?</p>
                 <input onChange={handleChangeWebdriverIO} id="checkSearch" name="checkSearch" value={inputWebdriver.checkSearch} type="text"></input>
-                <p>Wat is de id van de zoekbar knop?</p>
+                <p className="QScriptsQ">Wat is het id van de zoekbar knop?</p>
                 <input onChange={handleChangeWebdriverIO} id="checkSearchBtn" name="checkSearchBtn" value={inputWebdriver.checkSearchBtn} type="text"></input>
-                <p>Welke zoekopdracht zou je in willen vullen?</p>
+                <p className="QScriptsQ">Welke zoekopdracht zou je in willen vullen?</p>
                 <input onChange={handleChangeWebdriverIO} id="checkSearchTxt" name="checkSearchTxt" value={inputWebdriver.checkSearchTxt} type="text"></input>
-                </div>}
-
+                </div>
+                }
 
          <input
-        id="CheckTitle"
+          id="CheckTitle"
           type="checkbox"
           className="CheckTitle"
           value={checkToolTitle}
-        //   onClick={(e) => filterCheckToolTitle(e.target.checked)}
           onChange={(e) => setCheckToolTitle(e.target.checked)}
-          name="testtitle"
-        ></input> 
+          name="testtitle">
+          </input> 
          <span className="subtitleQest">Titel op pagina</span>
             {checkToolTitle && <div>
-                <p>Wat is de titel van de pagina?</p>
+                <p className="QScriptsQ">Wat is de titel van de pagina?</p>
                 <input onChange={handleChangeWebdriverIO} id="pageTitle" name="pageTitle" value={inputWebdriver.pageTitle} type="text"></input>
                 </div>}
             
-            
             <input
-        id="checkDifTool2"
-          type="checkbox"
-          className="Checkbtns"
-          value={checkToolBtn}
-          onClick={(e) => filterCheckToolBtn(e.target.checked)}
-          onChange={(e) => setCheckToolBtn(e.target.checked)}
-          name="testtype"
-        ></input>
+            id="checkDifTool2"
+            type="checkbox"
+            className="Checkbtns"
+            value={checkToolBtn}
+            onClick={(e) => filterCheckToolBtn(e.target.checked)}
+            onChange={(e) => setCheckToolBtn(e.target.checked)}
+            name="testtype">
+        </input>
+
         <span className="subtitleQest">Werking knop</span>
         {checkToolBtn && <div>
-            <p>Wat is de id van de knop?</p>
-        <input onChange={handleChangeWebdriverIO} id="idBtn" name="idBtn" value={inputWebdriver.idBtn} type="text"></input>
-        <p>Wat moet er op de website staan, na de op de knop te hebben geklikt?</p>
-        <input onChange={handleChangeWebdriverIO} id="titleBtn" name="titleBtn" value={inputWebdriver.titleBtn} type="text"></input>
-        </div>} 
-<br/>
+            <p className="QScriptsQ">Wat is het id van de knop?</p>
+            <input onChange={handleChangeWebdriverIO} id="idBtn" name="idBtn" value={inputWebdriver.idBtn} type="text"></input>
+            <p className="QScriptsQ">Wat moet er op de website staan, na de op de knop te hebben geklikt?</p>
+            <input onChange={handleChangeWebdriverIO} id="titleBtn" name="titleBtn" value={inputWebdriver.titleBtn} type="text"></input>
+            </div>
+            } 
+          <br/>
         <button onClick={handleDifferentTools} className="saveWebDriverScript">Maak script</button>
           </div>
-          
-           {/* }  */}
           </form>
-            </div>
-            
+          </div>
         )} 
 
         {GatlingTrue && (
           <div className="containers">
-            <p className="QScripts">Gatling</p>
+            <h4 className="QScripts">Gatling</h4>
             <p className="QuestScript">Wat is de basis URL?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="baseUrl"
                       value={inputGatling.baseUrl}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     <p className="QuestScript">Hoe moet de class heten?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="className"
                       value={inputGatling.className}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     <p className="QuestScript">Hoeveel scenario's zou je willen gebruiken?</p>
                     <select className="AnswerUpl" name='option' onChange={(e) => setOptionSenario(e.target.value)}>
                                 <option className="AnswerUpl" value="Senario">Senario: </option>
@@ -2602,52 +2552,52 @@ function handleDifferentTools(event){
                                 <option className="AnswerUpl" value="2">3</option>
                             </select>
                             {optionSenario === "1" && <div>
-                                <p>Hoe moet de senario heten?</p>
+                                <p className="QScriptsQ">Hoe moet de senario heten?</p>
                                 <input></input>
-                                <p>Wat moet er in het script staan?</p>
+                                <p className="QScriptsQ">Wat moet er in het script staan?</p>
                                 <input
                                 id="checkOptionGet"
                                 type="checkbox"
                                 className="Chechbtns"
                                 value={checkOptionGet}
-                                // onClick={(e) => filterFunc(e.target.checked)}
                                 onChange={(e) => setCheckOptionGet(e.target.checked)}
-                                name="testtype"
-                                ></input>
+                                name="testtype">
+                                </input>
+
                                 <span className="subtitleQest">GET</span>
                                 <input
                                 id="checkHTTP"
                                 type="checkbox"
                                 className="Chechbtns"
                                 value={checkHTTP}
-                                // onClick={(e) => filterFunc(e.target.checked)}
                                 onChange={(e) => setCheckHTTP(e.target.checked)}
-                                name="testtype"
-                                ></input>
+                                name="testtype">
+                                </input>
+
                                 <span className="subtitleQest">HTTP</span>
                                 {checkHTTP && <div>
-                                    <p>Beschrijf ......</p>
-                                    <p>Wat is de route naar de pagina?</p>
+                                    <p className="QScriptsQ">Wat is de route naar de pagina?</p>
                                     <input
                                     onChange={handleChangeGatling}
                                     id="txt"
                                     name="pageName"
                                     value={inputGatling.pageName}
-                                    type="text"
-                                    ></input>
-                                    </div>}
+                                    type="text">
+                                    </input>
+                                    </div>
+                                    }
                                 <input
                                 id="checkFunctioneel"
                                 type="checkbox"
                                 className="CheckPause"
                                 value={checkPause}
-                                // onClick={(e) => filterFunc(e.target.checked)}
                                 onChange={(e) => setCheckPause(e.target.checked)}
-                                name="testtype"
-                                ></input>
+                                name="testtype">
+                                </input>
+
                                 <span className="subtitleQest">Pause</span>
                                 {checkPause &&<div>
-                                    <p>Hoelang mag de pauze duren?</p>
+                                    <p className="QScriptsQ">Hoelang mag de pauze duren?</p>
                                 <input></input>
                                 </div>}
 
@@ -2655,87 +2605,62 @@ function handleDifferentTools(event){
                                 id="checkStatus"
                                 type="checkbox"
                                 className="CheckStatus"
-                                // value={checkStatus}
-                                // onClick={(e) => filterFunc(e.target.checked)}
-                                // onChange={(e) => setCheckStatus(e.target.checked)}
-                                name="testtype"
-                                ></input>
+                                name="testtype">
+                                </input>
                                 <span className="subtitleQest">Status</span>
-                                {/* {checkStatus &&<div>
-                                    <p>Hoelang mag de pauze duren?</p>
-                                <input></input>
-                                </div>} */}
-
                                 {/* //////////////////////////////////////////////////////////// */}
-                                </div>}
-            {/* three buttons to choose from */}
-            <p className="QScripts">Kies wat voor soort script zou je willen maken?</p>
-            <button className="CreateGatlingcript" onClick={() => setGatlingScriptB(!gatlingScriptB)}>Get senario</button>
-            <button className="GatlingM" onClick={() => setGatlingM(!gatlingM)}>script2</button>
-            <button className="gatlingG" onClick={() => setGatlingG(!gatlingG)}>Script3</button>
-
-            {gatlingScriptB && (
-              <div>
-                <h1 className="title-script">Get script</h1>
-                <h3 className="createScript">Maak een script:</h3>
-                <div className="script">
-                  <form action="RunnerScriptpage">
+                                </div>
+                                }
+          
+              <div className="script">
+                  <form action="uitvoerenScript">
                     {/* Input fields for the changes on a script */}
                     
-                    
-                    <p className="QuestScript">
-                      Hoeveel CPU users zou je willen?
-                    </p>
+                    <p className="QuestScript">Hoeveel CPU users zou je willen?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="rampUser"
                       value={inputGatling.rampUser}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Hoeveel tijd moet er tussen de users zitten?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Hoeveel tijd moet er tussen de users zitten?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="rampDuration"
                       value={inputGatling.rampDuration}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
 
-                    <p className="QuestScript">
-                      Hoe moet de functie waar de basis elementen worden
-                      opgeslagen heten?
-                    </p>
+                    <p className="QuestScript">Hoe moet de functie waar de basis elementen worden opgeslagen heten?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="httpfuncName"
                       value={inputGatling.httpfuncName}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Hoe moet de functie heten, waarbij je de route gaat
-                      testen?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Hoe moet de functie heten, waarbij je de route gaat testen?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="nameFunction"
                       value={inputGatling.nameFunction}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Hoe heet de eerste pagina die je wilt testen?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Hoe heet de eerste pagina die je wilt testen?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="pageName"
                       value={inputGatling.pageName}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
+
                     <p className="QuestScript">
                       Wat is de route naar deze pagina?
                     </p>
@@ -2746,94 +2671,83 @@ function handleDifferentTools(event){
                       value={inputGatling.route}
                       type="text"
                     ></input>
-                    <p className="QuestScript">
-                      Hoelang wil je dat de eerste pause duurt?
-                    </p>
+                    <p className="QuestScript">Hoelang wil je dat de eerste pause duurt?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="pauseOne"
                       value={inputGatling.pauseOne}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
                     <br></br>
-                    <p className="titleGet">2e get</p>
 
-                    <p className="QuestScript">
-                      Hoe heet de tweede pagina die je wilt testen?
-                    </p>
+                    <p className="titleGet">2e get</p>
+                    <p className="QuestScript">Hoe heet de tweede pagina die je wilt testen?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="nameFunction2"
                       value={inputGatling.nameFunction2}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de route naar deze pagina?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is de route naar deze pagina?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="route2"
                       value={inputGatling.route2}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Hoelang wil je dat de tweede pause duurt?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Hoelang wil je dat de tweede pause duurt?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="pauseTwo"
                       value={inputGatling.pauseTwo}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
                     <br></br>
-                    <p className="titleGet">3e get</p>
 
-                    <p className="QuestScript">
-                      Hoe heet de derde pagina die je wilt testen?
-                    </p>
+                    <p className="titleGet">3e get</p>
+                    <p className="QuestScript">Hoe heet de derde pagina die je wilt testen?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="nameFunction3"
                       value={inputGatling.nameFunction3}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Wat is de route naar deze pagina?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Wat is de route naar deze pagina?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="route3"
                       value={inputGatling.route3}
-                      type="text"
-                    ></input>
-                    <p className="QuestScript">
-                      Hoelang wil je dat de derde pause duurt?
-                    </p>
+                      type="text">
+                    </input>
+
+                    <p className="QuestScript">Hoelang wil je dat de derde pause duurt?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="pauseThree"
                       value={inputGatling.pauseThree}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
                     <br></br>
+
                     <p className="titleGet">Functie aanroepen</p>
-                    <p className="QuestScript">
-                      Hoe moet de functie van de scenario heten?
-                    </p>
+                    <p className="QuestScript">Hoe moet de functie van de scenario heten?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="scnNameFunction"
                       value={inputGatling.scnNameFunction}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
                     <p className="QuestScript">
                       Hoe moet de scenario zelf heten?
                     </p>
@@ -2842,71 +2756,31 @@ function handleDifferentTools(event){
                       id="txt"
                       name="scenarioName"
                       value={inputGatling.scenarioName}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
 
-
-                    
-
-                    <button
-                      className="CreateScritbtn"
-                      onClick={saveGatlingScriptB}
-                    >
-                      Maak script aan
-                    </button>
+                    <button className="CreateScritbtn" onClick={saveGatlingScriptB}>Maak script aan</button>
                   </form>
                 </div>
-              </div>
-            )}
+           
             {gatlingM && (
               <div>
                 <h1 className="title-script">script</h1>
                 <h3 className="createScript">Maak een script:</h3>
                 <div className="script">
-                  <form action="RunnerScriptpage">
+                  <form action="uitvoerenScript">
                     {/* Input fields for the changes on a script */}
+                    
                     <p className="QuestScript">Hoe moet je script heten?</p>
                     <input
                       onChange={handleChangeGatling}
                       id="txt"
                       name="title"
                       value={inputGatling.title}
-                      type="text"
-                    ></input>
+                      type="text">
+                    </input>
 
-                    <button
-                      className="CreateScritbtn"
-                      onClick={saveGatlingScriptM}
-                    >
-                      Maak script aan
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
-
-            {gatlingG && (
-              <div>
-                <h1 className="title-script">script</h1>
-                <h3 className="createScript">Maak een script:</h3>
-                <div className="script">
-                  <form action="RunnerScriptpage">
-                    {/* Input fields for the changes on a script */}
-                    <p className="QuestScript">Hoe moet je script heten?</p>
-                    <input
-                      onChange={handleChangeGatling}
-                      id="txt"
-                      name="title"
-                      value={inputGatling.title}
-                      type="text"
-                    ></input>
-
-                    <button
-                      className="CreateScritbtn"
-                      onClick={saveGatlingScriptG}
-                    >
-                      Maak script aan
-                    </button>
+                    <button className="CreateScritbtn" onClick={saveGatlingScriptM}>Maak script aan</button>
                   </form>
                 </div>
               </div>
@@ -2916,27 +2790,21 @@ function handleDifferentTools(event){
       </div>
 
       <div>
-        <h3 className="filterTitle">
-          {" "}
-          Alle tools die tot nu toe in de database staan:{" "}
-        </h3>
+        <h3 className="filterTitle">Alle tools in de database:</h3>
       </div>
       <div className="gridContainer">
         {tools.map((to) => (
           <div key={to._id}>
             <h3 className="titleTools">{to.title}</h3>
-            <p className="titelAnswere">
-              Ondersteunt functioneel: {to.functioneel}
-            </p>
-            <p className="titelAnswere">
-              Ondersteunt performance: {to.performance}
-            </p>
+            <p className="titelAnswere">Ondersteunt functioneel: {to.functioneel}</p>
+            <p className="titelAnswere">Ondersteunt performance: {to.performance}</p>
             <p className="titelAnswere">Ondersteunt security: {to.security}</p>
             <p className="titelAnswere">Kost geld: {to.option}</p>
             <p className="titelAnswere">Ondersteunt mac: {to.optionMac}</p>
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Editor from "./Editor";
 import axios from "axios";
+import {singleFileUpload} from '../data/api'
+var FileSaver = require('file-saver');
 
 // render the script and extern website
-//////////////////////////////////////////////// RenderJmeterpage
+// Jmeter
 function RunnerScriptpage() {
   const [js, setJs] = useState("");
   const [xml, setXml] = useState("");
@@ -21,14 +23,7 @@ function RunnerScriptpage() {
   console.log(ThreathsBasic);
   console.log(RunJMeterScript);
 
-  // /////////////////////////////////////////////////////cypress
-  // const textCypress= localStorage.getItem('RunCypressScript')
-  // console.log('cypress:'+textCypress)
-  // const savedCypress1 = localStorage.getItem('saveCypress1');
-  // console.log('cypress script:'+savedCypress1);
-  // const saveCypressAssertion = localStorage.getItem('scriptAssertion');
-  // console.log('cypressAssertion :' +saveCypressAssertion);
-
+  //cypress
   // choose the script from the tool(true/false)
   const CypressBasic = localStorage.getItem("CypressBasic");
   const CypressAssertion = localStorage.getItem("CypressAssertion");
@@ -42,9 +37,7 @@ function RunnerScriptpage() {
   const [CypAssertions, setCypAssertions] = useState(CypAssertion);
   const [CypAlls, setCypAlls] = useState(CypAll);
 
-  /////////////////////////////input
-
-  //////////////////////////////////////////////gatling
+  //gatling
   // choose the script from the tool (true/false)
   const GatlingBasic = localStorage.getItem("GatlingScript1");
   console.log("gatling b True:" + GatlingBasic);
@@ -52,11 +45,6 @@ function RunnerScriptpage() {
   console.log("gatling M True:" + GatlingM);
   const GatlingG = localStorage.getItem("GatlingScript3");
   console.log("gatling G True:" + GatlingG);
-
-  // const GatlingMe = localStorage.getItem('GatlingMe');
-  // console.log('gatling ME:'+GatlingMe);
-  // const GatlingGe = localStorage.getItem('GatlingGe');
-  // console.log('gatling GE:'+GatlingGe);
 
   // the value of the scripts
   const GatBasic = localStorage.getItem("GatlingBasic");
@@ -66,16 +54,13 @@ function RunnerScriptpage() {
   const [GatlingBasics, setGatlingBasics] = useState(GatBasic);
   const [GatlingMs, setGatlingMs] = useState(GatM);
   const [GatlingGs, setGatlingGs] = useState(GatG);
-  //////////////////////////////////////////////////
-///////////////////////////////////////////////////////webdriver
-const WebDriverScript = localStorage.getItem('scriptWeb')
 
+  //webdriver
+  const scriptWeb = localStorage.getItem('scriptWeb')
 
-
-///////////////////////////////////////////////////
-  /////////////////////////////////////////////////////selenium
+  //selenium
   const selenBasic = localStorage.getItem("selenBasic");
-  const [seleniumBasic, setSeleniumBasic] = useState(selenBasic);
+  // const [seleniumBasic, setSeleniumBasic] = useState(selenBasic);
   console.log("selenium:" + selenBasic);
 
   const RunSeleniumScript = localStorage.getItem("RunSeleniumsScript");
@@ -84,7 +69,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
   const [inputXmlHTTP, setinputXmlHTTP] = useState(Httpqest);
   const [inputAll, setinputAll] = useState(allquest);
 
-  ////////////////////////////////////////////////////////
+  // Database state
   const [item, setitem] = useState({
     inputHttp: "",
     inputAll: "",
@@ -96,7 +81,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
     GatlingBasics: "",
     GatlingMs: "",
     GatlingGs: "",
-    ////////////////////////input
+    scriptWeb:"",
   });
 
   // Handle the change
@@ -113,11 +98,13 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
       selenBasic,
       GatlingBasics,
       GatlingMs,
-      GatlingGs ///input
+      GatlingGs ,
+      scriptWeb
     );
     console.log(item);
   }
 
+  // add item to database
   function addItem(e) {
     alert("Script is opgeslagen in database");
     e.preventDefault();
@@ -128,36 +115,39 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
       CypBasic: cypresBasic,
       CypAssertion: CypAssertions,
       CypAll: CypAlls,
-      selenBasic: seleniumBasic,
+      selenBasic: selenBasic,
       GatlingBasics: GatlingBasics,
       GatlingMs: GatlingMs,
       GatlingGs: GatlingGs,
-      ///////input
+      scriptWeb: scriptWeb,
     };
     axios.post("http://localhost:3001/SaveScript", newItem);
     console.log(newItem);
   }
-  
-  function file(a) {
-  //   try{
-    if(a !== undefined){
-    console.log(a)
-    const Builder = require("selenium-webdriver");
-  require("chromedriver");
-    async function example(){
-            let driver = await new Builder().forBrowser("chrome").build();
-            await driver.get("http://localhost:3002/vragenlijst");
-    }
-    example();
-  }
-  else{console.log("nope")}
-  }
-  // catch(e){
-    // console.log(e);
-  // }
-// }
 
+  function addfile(){
+     var file = new File([selenBasic], "Testscript.js", {type: "javascript"});
+     FileSaver.saveAs(file);
+  }
 
+  const [InfoCheckTrue, setInfoCheckTrue] = useState(false);
+  const [InfoDatabase, setInfoDatabase] = useState(false);
+  const [InfoScriptPipeline, setInfoScriptPipeline] = useState(false);
+  const [InfoDownload, setInfoDownlod] = useState(false);
+  const [InfoGitHub, setInfoGithub] = useState(false);
+
+  const [singleFile, setSingleFile] = useState('');
+   
+  const SingleFileChange = (e) => {
+    setSingleFile(e.target.files[0]);
+    // setSingleProgress(0);
+}
+const uploadSingleFile = async () => {
+  const formData = new FormData();
+  formData.append('file', singleFile);
+  await singleFileUpload(formData);
+  // props.getsingle();
+}
   return (
     <div className="contain">
       <div className="greenArray">
@@ -165,19 +155,22 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           <h1 className="TitleI">Test</h1>
         </div>
       </div>
+      <div className='body'>
       <div>
+        <h1 className="paramTitle">Stap 1: Controleer of het testscript juist is.</h1>
+        <button className="InfoBtn" onClick={() => setInfoCheckTrue(!InfoCheckTrue)}>Info</button>
+        {InfoCheckTrue && <div>
         <p className="paramTitle">Is dit het gewenste testscript?</p>
-        <p className="paramTitle">Zo ja, klik dan op de run script knop</p>
-        <button  onClick={file}>run</button>
+        <p className="paramTitle">Zo ja, klik dan op de knop "run script".</p>
+        <p className="paramTitle">Zo nee, ga dan terug naar de vorige pagina en vul opnieuw de vragen in.</p>
+        </div>}
       </div>
 
       {/* selenium */}
-      {/* {RunSeleniumScript&& */}
       <div className="pane top-pane">
         {/* the language where the script on the website runs in */}
-        <div className="proberen" id="proberen">
+        <div className="selenium" id="selenium">
         <Editor
-        className="hoihoi"
           language="javascript"
           displayName="Selenium"
           id="editor"
@@ -195,16 +188,12 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           language="javascript"
           displayName="WebdriverIO"
           id="editor"
-          value={WebDriverScript}
+          value={scriptWeb}
           onChange={setJs}
         ></Editor>
         </div>
         </div>
 
-
-      {/* } */}
-      {/* JMeter */}
-      {/* {renderJMScript && */}
       <div className="pane top-pane">
         {/* basic */}
         {basicJM && (
@@ -215,6 +204,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setXml}
           ></Editor>
         )}
+
         {/* http */}
         {renderhttp && (
           <Editor
@@ -226,9 +216,9 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setXml}
           ></Editor>
         )}
+
         {/* all */}
         {renderAll && (
-          // {/* HIer moet nog een if state ment komen, omdat hij nu constant te zien is */}
           <Editor
             language="xml"
             displayName="JMeter All"
@@ -239,7 +229,6 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
       </div>
 
       {/* cypress */}
-
       <div className="pane top-pane">
         {CypressBasic && (
           // {/* the language where the script on the website runs in */}
@@ -250,6 +239,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setJs}
           ></Editor>
         )}
+
         {CypressAssertion && (
           <Editor
             language="javascript"
@@ -258,6 +248,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setJs}
           ></Editor>
         )}
+
         {CypressAll && (
           <Editor
             language="javascript"
@@ -267,6 +258,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           ></Editor>
         )}
       </div>
+
       {/* Gatling */}
       <div className="pane top-pane">
         {GatlingBasic && (
@@ -278,6 +270,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setJs}
           ></Editor>
         )}
+
         {GatlingM && (
           <Editor
             language="java"
@@ -286,6 +279,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
             onChange={setJs}
           ></Editor>
         )}
+
         {GatlingG && (
           <Editor
             language="java"
@@ -304,6 +298,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+        
         <input
           onChange={handleChange}
           name="ThreathsBasic"
@@ -311,6 +306,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+
         <input
           onChange={handleChange}
           name="inputHttp"
@@ -318,7 +314,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
-        {/* <input onChange={handleChange} name= "savedCypress1" autoComplete = "off" className="Hide-inputscripts" placeholder="Naam"></input> */}
+
         <input
           onChange={handleChange}
           name="CypAssertion"
@@ -326,6 +322,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+
         <input
           onChange={handleChange}
           name="CypAll"
@@ -333,6 +330,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+
         <input
           onChange={handleChange}
           name="inputXmlHTTP"
@@ -340,6 +338,7 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+
         <input
           onChange={handleChange}
           name="CypBasic"
@@ -347,9 +346,14 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
-        {/* <input onChange={handleChange} name= "" autoComplete = "off" className="Hide-inputscripts" placeholder="Naam"></input> */}
 
-        {/* input!!!!!!!!!!!!!!!!!!!!!!!!!! */}
+        <input
+          onChange={handleChange}
+          name="scriptWeb"
+          autoComplete="off"
+          className="Hide-inputscripts"
+          placeholder="Naam"
+        ></input>
 
         <input
           onChange={handleChange}
@@ -358,9 +362,99 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
+<button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button>
+ 
+        <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1>
+        {/* <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button> */}
+      {InfoDatabase && <div>
+      <div>
+        <p className="paramTitle">Wil je het testscript opslaan?</p>
+        <p className="paramTitle">Zo ja, klik dan op de knop "Testscript opslaan in database".</p>
+        <p className="paramTitle">Zo nee, ga dan maar de volgende stap.</p>
+      </div>
+      </div>}
+
         <button onClick={addItem} className="Btn-addItem-db">
-          Script opslaan in database
+          Testscript opslaan in database
         </button>
+
+        <div>
+        <h1 className="paramTitle">Stap 3: Testscript downloaden</h1>
+  <button className="InfoBtn" onClick={() => setInfoDownlod(!InfoDownload)}>Info</button>
+        {InfoDownload && <div>
+        <p className="paramTitle">Om het testscript te kunnen uitvoeren, moet het testscript worden gedownlaod</p>
+        <p className="paramTitle">Klik op "Download testscript" om het testscript te downloaden</p>
+        </div>}
+      </div>
+
+        <button onClick={addfile} className="QuestDownloadBtn">Download testscript</button>
+        <h3 className="paramTitle">keuze uit: testscript toevoegen aan bestandspad of testscript toevoegen aan GitHub</h3>
+         
+         {/* Code for saving in directory */}
+         <h1 className="paramTitle">Stap 4: Testscript toevoegen aan bestandspad</h1>
+         <div className="form-group">
+                    <label >Kies een script en voeg hem toe aan een bestandspad</label>
+                    <br />
+                    
+                    <input type="file" className="form-control" onChange={(e) => SingleFileChange(e)} />
+                    <br />
+                    <br />
+                    <button type="button" className="btn btn-danger" onClick={() => uploadSingleFile()} >Upload</button>
+            
+                </div>
+                
+
+        <div>
+        <h1 className="paramTitle">Stap 4.1: Testscript toevoegen aan GitHub</h1>
+        <button className="InfoBtn" onClick={() => setInfoGithub(!InfoGitHub)}>Info</button>
+        {InfoGitHub &&<div>
+        <p className="paramTitle">Om het testscript te kunnen uitvoeren, moet het testscript worden geüpload in GitHub</p>
+        <p className="paramTitle">Klik op "Ga naar GitHub" om naar GitHub te gaan</p>
+        <p className="paramTitle">Ga vervolgens naar het gewenste branch en klik op "add file"</p>
+        <p className="paramTitle">Voeg je tescript toe en commit je veranderingen</p>
+        </div>}
+      </div>
+      <form action="https://github.com/JuliavanDriel/web-apps/tree/working/frontend/src/components">
+        <button  className="Btn-Open-GitHub">
+          Ga naar GitHub
+        </button>
+        </form>
+
+      <div>
+        <h1 className="paramTitle">Stap 5: Ga naar Jenkins om de test uit te voeren</h1>
+        <button className="InfoBtn" onClick={() => setInfoScriptPipeline(!InfoScriptPipeline)}>Info</button>
+        {InfoScriptPipeline && <div>
+        <p className="paramTitle">Om het testscript te kunnen uitvoeren, moet er eerst worden ingelogd</p>
+        <p className="paramTitle">vervolgens moet er een pipeline worden toegevoegd</p>
+        <p className="paramTitle">Een voorbeeld van het uit voeren van een script is als volgt:</p>
+        <p className="paramTitle">pipeline ( "dit moet een gekrulde haak zijn" agent any</p>
+ 
+  <p className="paramTitle">tools (nodejs "node") "de () moeten een gekrulde haak zijn"</p>
+    
+  <p className="paramTitle">stages ( "dit moet een gekrulde haak zijn" </p>   
+    <p className="paramTitle">stage('Cloning Git') ("dit moet een gekrulde haak zijn"</p>
+    <p className="paramTitle">steps ( </p>   
+      <p className="paramTitle">git branch: 'working', url: 'https://github.com/JuliavanDriel/web-apps.git'</p>
+      <p className="paramTitle">sh "npm install selenium-webdriver" </p>
+      <p className="paramTitle">sh "npm install chromedriver" </p>
+      <p className="paramTitle">dir("frontend/src/components") ("dit moet een gekrulde haak zijn"</p>
+      <p className="paramTitle">sh "node file.js"</p>
+      <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
+      <p className="paramTitle"> )"dit moet een gekrulde haak zijn"</p>
+       
+      <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
+      <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
+      <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
+     </div>} 
+     </div>
+      
+        
+        <form action="http://localhost:8080/login?from=%2F">
+        <button  className="Btn-Open-Jenkins">
+          Ga naar JenKins
+        </button>
+        </form>
+        
         <p className="paramTitle">Dit is de website die is aangegeven</p>
       </div>
 
@@ -375,9 +469,10 @@ const WebDriverScript = localStorage.getItem('scriptWeb')
         ></iframe>
       </div>
 
-      <a href="/Selenium">
+      <a href="/vragenlijst">
         <button className="BacktoQuestBtn">Terug</button>
       </a>
+    </div>
     </div>
   );
 }

@@ -36,14 +36,13 @@ function HistoryPage(){
          <div className='greenArray'>
         <div>
             <h1 className="TitleR">Van geschiedenis kan je leren</h1>
-        {/* <p class="haken">>></p> */}
     </div>
         </div>
+        <div className='body'>
         <h1>JMeter</h1>
         <div className="gridContainerJM">
         {historyScriptJMeter.map((to, key) => (
          <div className="Onegrid" key={key}>
-           {/* <div key={to._id}> */}
               {to.inputHttp !== "undefined" && <div><h1>HTTP:</h1>
             <p className="titleTools">{to.inputHttp !== "undefined"&& to.inputHttp}</p></div>}
             {to.inputAll !== "undefined" && <div><h1>Alles:</h1>
@@ -52,13 +51,11 @@ function HistoryPage(){
             <p className="titelAnswere">{to.ThreathsBasic !=="undefined" && to.ThreathsBasic}</p></div>}
             <button className="deletebtntool" onClick={() => deleteItem(to._id)}>Verwijder script</button>
           </div>
-          // </div>
         ))}
         </div>
         <h1>Cypress</h1>
         <div className="gridContainerCY">
         {historyScriptCypress.map((to, key) => (
-    // <div key={to._id}>
     <div className="Onegrid" key={key}>
         {to.CypBasic !== "undefined" && <div><h1>Basic:</h1>
             <p className="titelAnswere">{to.CypBasic !== "undefined" && to.CypBasic}</p></div>}
@@ -82,6 +79,7 @@ function HistoryPage(){
       )
   }
   </div>
+    </div>
     </div>
 }
 

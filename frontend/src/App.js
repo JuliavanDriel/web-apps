@@ -1,16 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router,Route} from "react-router-dom";
 import Navbar from "./components/Navbar";
-import QuestionPage from './components/Questionpage';
-import HistoryPage from './components/Historypage';
-import Infop from './components/Infop';
-import Home from "./components/Home";
+import QuestionPage from './components/QuestionPage';
+import HistoryPage from './components/HistoryPage';
+import InfoPage from './components/InfoPage';
+import HomePage from "./components/HomePage";
 import CreateTool from "./components/UploadTool";
-import Renderpage from "./components/RenderScript";
-// import JMeterpage from "./components/JMeter";
-import RenderSeleniumpage from "./components/Selenium";
-import JMeterScriptpage from './components/JMeterScript';
-import RunnerScriptpage from './components/RunnerScriptpage'
+
+import RunnerScriptpage from './components/RunnerScriptPage';
+import Loginpage from "./components/LoginPage";
 
 
 // defines the routes
@@ -20,47 +18,38 @@ return (
   <Router>
     <Navbar/>
     <Route path="/" exact>
-      <Home/>
+      <Loginpage/>
       {/* home */}
     </Route>
-    <Route path="/log">
-      <Home/>
+    <Route path="/home" exact>
+      <HomePage/>
+      {/* home */}
+    </Route>
+    <Route path="/login">
+      <Loginpage/>
       {/* Uitloggen */}
     </Route>
     <Route path="/vragenlijst">
       <QuestionPage/>
       {/* questionpage */}
     </Route>
-    <Route path= "/createtool">
+    <Route path= "/testtoolToevoegen">
       <CreateTool/>
     {/* Create a tool */}
     </Route>
-    <Route path="/rapportgeschiedenis">
+    <Route path="/rapportGeschiedenis">
       <HistoryPage/>
       {/* rapporthistory */}
     </Route>
-    <Route path="/informatiepagina">
-      <Infop/>
+    <Route path="/informatie">
+      <InfoPage/>
       {/* questionpage */}
     </Route>
-    <Route path="/render">
-      <Renderpage/>
-      {/* qpage */}
-    </Route>
-    {/* <Route path="/JMeter">
-      <JMeterpage/>
-      {/* RenderSeleniumpage */}
-    {/* </Route> */} 
-    <Route path="/Selenium">
-      <RenderSeleniumpage/>
-      {/* renderSeleniumpage */}
-    </Route>
-    <Route path="/JMeterScript">
-      <JMeterScriptpage/>
-      {/* renderJMeterpage */}
-    </Route>
-    <Route path="/RunnerScriptpage">
+    <Route path="/uitvoerenScript">
       <RunnerScriptpage/>
+    </Route>
+    <Route path="/single">
+      <Loginpage/>
     </Route>
   </Router>
 )
