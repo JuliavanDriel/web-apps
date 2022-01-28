@@ -1250,7 +1250,7 @@ function handleDifferentTools(event){
        'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1266,7 +1266,7 @@ function handleDifferentTools(event){
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1282,7 +1282,7 @@ function handleDifferentTools(event){
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
-       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1298,7 +1298,7 @@ function handleDifferentTools(event){
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'console.log('+"Result is:"+ "data);'+ "+"\n" +
+       'console.log("Result is:"+ data);' + "\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1315,7 +1315,7 @@ function handleDifferentTools(event){
        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-       'console.log('+"Result is:"+'+ data);'+ "\n" +
+       'console.log("Result is:"+ data);' + "\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1336,30 +1336,6 @@ function handleDifferentTools(event){
         )
       
   }
-    // setselenBasic(
-    //   if(checkSeleniumBtn){}
-    //   'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-    //     'require("' +inputSelenium.title + '");' +"\n" +
-    //     "async function example(){" +"\n" +
-    //     'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
-    //     'await driver.get("' +inputSelenium.url +'");' + "\n" +
-    //     'await driver.findElement(By.name("' +inputSelenium.idkey +'")).sendKeys("' + inputSelenium.search + '", Key.RETURN);}' +"\n" +
-    //     "example();" 
-
-//         const {Builder, By, Key, util} = require("selenium-webdriver");
-// require("chromedriver");
-// async function example(){
-// let driver = await new Builder().forBrowser("chrome").build();
-// await driver.get("http://localhost:3000/vragenlijst");
-// await driver.findElement(By.id("SeleniumBtn")).click();
-// await driver.findElement(By.id("InputSeleniumQ1")).sendKeys("chromedriver");
-// let data = await driver.findElement(By.id("SeleniumQ1")).getText();
-// console.log('Result is:'+ data);
-// await driver.quit();
-// }
-// example();
-        
-    // );
 
     // stores the item in an object to get it on the next page
     localStorage.setItem("Url", inputSelenium.url);
@@ -2033,7 +2009,7 @@ function handleDifferentTools(event){
         {jmeterTrue && (
             <div className="containers">
               <h4 className="QScripts">JMeter</h4>
-              <p className="QScriptsQ">Kies wat voor soort script zou je willen maken?</p>
+              <p className="QScriptsQ" id="JmeterParamChoice">Kies wat voor soort script zou je willen maken?</p>
              
               {/* three buttons to choose from */}
               <button className="CreateJMScript" onClick={() => setIsToggled(!isToggled)}>Thread</button>

@@ -414,7 +414,7 @@ const uploadSingleFile = async () => {
         <p className="paramTitle">Voeg je tescript toe en commit je veranderingen</p>
         </div>}
       </div>
-      <form action="https://github.com/JuliavanDriel/web-apps/tree/working/frontend/src/components">
+      <form action="https://github.com/JuliavanDriel/web-apps/tree/master/frontend/src/components/testfiles">
         <button  className="Btn-Open-GitHub">
           Ga naar GitHub
         </button>
