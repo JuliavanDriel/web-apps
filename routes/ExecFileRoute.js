@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const hello = require("../models/runHello");
+const hello = require("../models/ExecFileModel");
 const { execFile } = require('child_process');
 
 // uitvoerenvanHello

@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import Editor from "./Editor";
 import axios from "axios";
 import {singleFileUpload} from '../data/api'
-// const helloworld = require('./HelloWorld');
-// import PrintTekst from '../data/PrintTekst';
-// import {getVersion} from '../data/PrintTekst';
-const getversion = require("../data/PrintTekst")
-
 var FileSaver = require('file-saver');
 
 // render the script and extern website
-// Jmeter
 function RunnerScriptpage() {
+  // States
   const [js, setJs] = useState("");
   const [xml, setXml] = useState("");
   const uRl = localStorage.getItem("Url");
@@ -27,10 +22,6 @@ function RunnerScriptpage() {
   console.log(Httpqest);
   console.log(ThreathsBasic);
   console.log(RunJMeterScript); 
-
-  
-
-
 
   //cypress
   // choose the script from the tool(true/false)
@@ -175,39 +166,12 @@ function handleChange2(event) {
   console.log("dit is"+nameFile);
 }
 
-function SayHello(){
-//  console.log("hello")
-
-//   const util = require('util');
-//   const execFile = util.promisify(require('child_process').execFile);
-//   async function getVersion() {
-//   const { stdout } = await execFile('node', ['--version']);
-//   console.log(stdout);
-// }
-// getVersion();
-
-  // console.log(<Testscript></Testscript>)
-}
-//  
-
-// async function SayHello() {
-//   const util = require('util');
-// const execFile = util.promisify(require('child_process').execFile);
-//   const { stdout } = await execFile('node', ['--version']);
-//   console.log(stdout);
-// }
-// SayHello();
-
-// }
-
 
 const [inputHey, setSayHello] = useState({
   TitleHello:"",
 });
 
 const [getinputhey, setGetInputHey] = useState([])
-
-
 
   // add item to database and post a testscript to run
   function addItemHello(e) {
@@ -228,8 +192,6 @@ useEffect(() => {
   });
 }, []);
 
-
-
 function handleHello(event) {
   // console.log(event.target)
   const { name, value } = event.target;
@@ -241,13 +203,6 @@ function handleHello(event) {
       };
   });
 }
-
-function result(){
-const abc = getversion.getVersion()
-console.log("result:  "+ {abc} )
-} 
-
-
 
   return (
     <div className="contain">
@@ -469,19 +424,14 @@ console.log("result:  "+ {abc} )
           placeholder="Naam"
         ></input>
 <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button>
- 
-  {/* TODO : Hier moet een knop komen die ervoor zorgt dat een testscript uitgevoerd wordt en de resultaten moeten worden terug gegeven. */}
-<button onClick={SayHello}>Say Hello</button>
+
 
 <input value={inputHey.TitleHello} onChange={handleHello} name="TitleHello"/>
 
 {/* post a testscript to run */}
-<button onClick={addItemHello}>Say Hello api</button>
+<button onClick={addItemHello}>Voer script uit</button>
 
-
-<button onClick={result}>runfile</button>
-
-
+{/* Show all data of results aftester execution */}
 <div className="gridContainer">
         {getinputhey.map((to) => (
           <div key={to._id}>
@@ -584,7 +534,6 @@ console.log("result:  "+ {abc} )
       <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
      </div>} 
      </div>
-      
         
         <form action="http://localhost:8080/login?from=%2F">
         <button  className="Btn-Open-Jenkins">
