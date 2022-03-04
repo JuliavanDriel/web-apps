@@ -209,7 +209,7 @@ const [getinputhey, setGetInputHey] = useState([])
 
 
 
-  // add item to database
+  // add item to database and post a testscript to run
   function addItemHello(e) {
     // alert("Script is opgeslagen in database");
     e.preventDefault();
@@ -228,15 +228,7 @@ useEffect(() => {
   });
 }, []);
 
-// function handleHello(event) {
-//   const { name, value } = event.target;
 
-//   setSayHello(
-//     TitleHello,
-    
-//   );
-//   console.log(TitleHello);
-// }
 
 function handleHello(event) {
   // console.log(event.target)
@@ -482,12 +474,11 @@ console.log("result:  "+ {abc} )
 <button onClick={SayHello}>Say Hello</button>
 
 <input value={inputHey.TitleHello} onChange={handleHello} name="TitleHello"/>
+
+{/* post a testscript to run */}
 <button onClick={addItemHello}>Say Hello api</button>
-{/* <div>
-{getinputhey.map(hey => <div> <h1>
-{hey.TitleHello}
-</h1></div>)}
-</div> */}
+
+
 <button onClick={result}>runfile</button>
 
 

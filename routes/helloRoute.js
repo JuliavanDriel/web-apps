@@ -3,8 +3,9 @@ const express = require("express");
 const router = express.Router();
 const hello = require("../models/runHello");
 const { execFile } = require('child_process');
+
 // uitvoerenvanHello
-// route to post a new tool
+// route to post a new testscript
 router.route("/uitvoerenvanHello").post((req, res)=>{
     // console.log("Hello")
     var child = execFile('node', ['frontend/src/components/testfiles/Testscript.js'], (error, stdout, stderr) => {
@@ -19,17 +20,10 @@ router.route("/uitvoerenvanHello").post((req, res)=>{
         console.log(stdout);
       });
         console.log("Hello world"+ child);
-    
-    // const TitleHello = req.body.TitleHello;
-   
-    // const newhello = new hello({
-    //     TitleHello, 
-    //         });
-    //         newhello.save();
    
 })
 
-// route to get tools
+// route to get testscript
 router.route("/hellos").get((req,res)=>{
     // console.log(child)
     hello.find()
