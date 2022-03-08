@@ -1,14 +1,18 @@
 'use strict';
 const SingleFile = require('../models/singlefile');
 
+
+// File upload in path project
 const singleFileUpload = async (req, res, next) => {
 try{
+    // Create the model of file
         const file = new SingleFile({
             fileName: req.file.originalname,
             filePath: req.file.path,
             fileType: req.file.mimetype,
             fileSize: fileSizeFormatter(req.file.size, 4)
         });
+        // Save the file
         await file.save();
         console.log(file)
         res.status(201).send('file Uploaded Successfully');
@@ -17,6 +21,7 @@ try{
         res.status(400).send(error.message);
     }
 }
+// Get all files
 const getallSingleFiles = async (req, res, next) => {
     try{
         const files = await SingleFile.find();
@@ -26,6 +31,7 @@ const getallSingleFiles = async (req, res, next) => {
     }
 }
 
+// File formatter
 const fileSizeFormatter = (bytes, decimal) =>{
     if(bytes=== 0){
         return '0 bytes';

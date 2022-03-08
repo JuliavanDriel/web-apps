@@ -4,14 +4,14 @@ const router = express.Router();
 const hello = require("../models/ExecFileModel");
 const { execFile } = require('child_process');
 
-// uitvoerenvanHello
 // route to post a new testscript
 router.route("/uitvoerenvanHello").post((req, res)=>{
-    // console.log("Hello")
+    // shell command to execute a file
     var child = execFile('node', ['frontend/src/components/testfiles/Testscript.js'], (error, stdout, stderr) => {
         if (error) {
           throw error;
         }
+        // create and save file
         const TitleHello = stdout;
         const newhello = new hello({
         TitleHello, 
@@ -23,6 +23,8 @@ router.route("/uitvoerenvanHello").post((req, res)=>{
    
 })
 
+
+
 // route to get testscript
 router.route("/hellos").get((req,res)=>{
     // console.log(child)
@@ -30,6 +32,17 @@ router.route("/hellos").get((req,res)=>{
     .then((foundTools) => res.json(foundTools))
     .catch((err) => res.status(400).json("Error: "+err));
 })
+
+router.route("/hellos/title").get((req,res) =>{
+  hello.find({TitleHello :"Result is:Testen. Testen. Testen."}, (req,res, err)=>{
+      if(!err) {
+          console.log("Item found");
+      }else{
+          console.log(err);
+      }
+  });
+});
+
 
 router.route("/runFile").post((req,res) =>{
 

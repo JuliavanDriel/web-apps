@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 // renders the infopagee
 function Infopage(){
+    // State
     const [seleniumInfo,setSeleniumInfo] = useState(false)
     const [gatlingInfo, setGatlingInfo] = useState(false)
     const [jmeterInfo, setJmeterInfo] = useState(false)
@@ -14,7 +15,6 @@ function Infopage(){
          <div className='greenArray'>
         <div>
             <h1 className="TitleI">Lezen. Leren. Schrijven.</h1>
-        {/* <p class="haken">>></p> */}
     </div>
     </div>
     <div className='body'>

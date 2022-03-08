@@ -61,7 +61,7 @@ function RunnerScriptpage() {
   //selenium
   const selenBasic = localStorage.getItem("selenBasic");
   // const [seleniumBasic, setSeleniumBasic] = useState(selenBasic);
-  console.log("selenium:" + selenBasic);
+  console.log("selenium script is:" + selenBasic);
 
   const RunSeleniumScript = localStorage.getItem("RunSeleniumsScript");
   console.log("selenium:" + RunSeleniumScript);
@@ -105,7 +105,7 @@ function RunnerScriptpage() {
     console.log(item);
   }
 
-  // add item to database
+  // add testscript to database
   function addItem(e) {
     alert("Script is opgeslagen in database");
     e.preventDefault();
@@ -173,9 +173,10 @@ const [inputHey, setSayHello] = useState({
 
 const [getinputhey, setGetInputHey] = useState([])
 
+
+
   // add item to database and post a testscript to run
   function addItemHello(e) {
-    // alert("Script is opgeslagen in database");
     e.preventDefault();
     
     const newhello = {
@@ -191,6 +192,9 @@ useEffect(() => {
     setGetInputHey(response.data);
   });
 }, []);
+
+
+
 
 function handleHello(event) {
   // console.log(event.target)
@@ -349,8 +353,6 @@ function handleHello(event) {
         )}
       </div>
 
-     
-
       <div>
         <input
           onChange={handleChange}
@@ -431,6 +433,7 @@ function handleHello(event) {
 {/* post a testscript to run */}
 <button onClick={addItemHello}>Voer script uit</button>
 
+
 {/* Show all data of results aftester execution */}
 <div className="gridContainer">
         {getinputhey.map((to) => (
@@ -439,11 +442,6 @@ function handleHello(event) {
                    </div>
         ))}
       </div>
-
-
-
-
-
 
         <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1>
         {/* <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button> */}
@@ -454,9 +452,6 @@ function handleHello(event) {
         <p className="paramTitle">Zo nee, ga dan maar de volgende stap.</p>
       </div>
       </div>}
-
-{/* <button onClick={helloworld}>Voer een functie uit</button> */}
-
 
         <button onClick={addItem} className="Btn-addItem-db">
           Testscript opslaan in database
