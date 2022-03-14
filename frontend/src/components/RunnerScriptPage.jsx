@@ -219,12 +219,12 @@ function handleHello(event) {
       <div>
         
         <h1 className="paramTitle">Stap 1: Controleer of het testscript juist is.</h1>
-        <button className="InfoBtn" onClick={() => setInfoCheckTrue(!InfoCheckTrue)}>Info</button>
+        {/* <button className="InfoBtn" onClick={() => setInfoCheckTrue(!InfoCheckTrue)}>Info</button>
         {InfoCheckTrue && <div>
         <p className="paramTitle">Is dit het gewenste testscript?</p>
         <p className="paramTitle">Zo ja, klik dan op de knop "run script".</p>
         <p className="paramTitle">Zo nee, ga dan terug naar de vorige pagina en vul opnieuw de vragen in.</p>
-        </div>}
+        </div>} */}
       </div>
 
       {/* selenium */}
@@ -276,7 +276,7 @@ function handleHello(event) {
             displayName="JMeter HTTP"
             name="inputXmlHTTP"
             value={inputXmlHTTP}
-            onChange={setXml}
+            // onChange={setXml}
           ></Editor>
         )}
 
@@ -425,13 +425,12 @@ function handleHello(event) {
           className="Hide-inputscripts"
           placeholder="Naam"
         ></input>
-<button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button>
 
 
 <input value={inputHey.TitleHello} onChange={handleHello} name="TitleHello"/>
 
 {/* post a testscript to run */}
-<button onClick={addItemHello}>Voer script uit</button>
+<button className="executeScriptBtn" onClick={addItemHello}>Voer testscript uit</button>
 
 
 {/* Show all data of results aftester execution */}
@@ -443,38 +442,38 @@ function handleHello(event) {
         ))}
       </div>
 
-        <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1>
+        {/* <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1> */}
         {/* <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button> */}
-      {InfoDatabase && <div>
+      {/* {InfoDatabase && <div>
       <div>
         <p className="paramTitle">Wil je het testscript opslaan?</p>
         <p className="paramTitle">Zo ja, klik dan op de knop "Testscript opslaan in database".</p>
         <p className="paramTitle">Zo nee, ga dan maar de volgende stap.</p>
       </div>
-      </div>}
+      </div>} */}
 
-        <button onClick={addItem} className="Btn-addItem-db">
+        {/* <button onClick={addItem} className="Btn-addItem-db">
           Testscript opslaan in database
-        </button>
+        </button> */}
 
-        <div>
-        <h1 className="paramTitle">Stap 3: Testscript downloaden</h1>
-  <button className="InfoBtn" onClick={() => setInfoDownlod(!InfoDownload)}>Info</button>
+        {/* <div>
+        {/* <h1 className="paramTitle">Stap 3: Testscript downloaden</h1> */}
+  {/* <button className="InfoBtn" onClick={() => setInfoDownlod(!InfoDownload)}>Info</button>
         {InfoDownload && <div>
         <p className="paramTitle">Om het testscript te kunnen uitvoeren, moet het testscript worden gedownlaod</p>
         <p className="paramTitle">Klik op "Download testscript" om het testscript te downloaden</p>
         </div>}
-      </div>
+      </div> */} 
       
 
-      <input  onChange={handleChange2} placeholder="Naam" id="setnameFile" name="setnameFile" />
+      {/* <input  onChange={handleChange2} placeholder="Naam" id="setnameFile" name="setnameFile" /> */}
 
-        <button onClick={addfile} className="QuestDownloadBtn">Download testscript</button>
+        {/* <button onClick={addfile} className="QuestDownloadBtn">Download testscript</button>
         <h3 className="paramTitle">keuze uit: testscript toevoegen aan bestandspad of testscript toevoegen aan GitHub</h3>
-         
+          */}
          {/* Code for saving in directory */}
-         <h1 className="paramTitle">Stap 4: Testscript toevoegen aan bestandspad</h1>
-         <div className="form-group">
+        
+         {/* <div className="form-group">
                     <label >Kies een script en voeg hem toe aan een bestandspad</label>
                     <br />
                     
@@ -483,25 +482,25 @@ function handleHello(event) {
                     <br />
                     <button type="button" className="btn btn-danger" onClick={() => uploadSingleFile()} >Upload</button>
             
-                </div>
+                </div> */}
                 
 
-        <div>
-        <h1 className="paramTitle">Stap 4.1: Testscript toevoegen aan GitHub</h1>
+        {/* <div> */}
+        {/* <h1 className="paramTitle">Stap 4.1: Testscript toevoegen aan GitHub</h1>
         <button className="InfoBtn" onClick={() => setInfoGithub(!InfoGitHub)}>Info</button>
         {InfoGitHub &&<div>
         <p className="paramTitle">Om het testscript te kunnen uitvoeren, moet het testscript worden geüpload in GitHub</p>
         <p className="paramTitle">Klik op "Ga naar GitHub" om naar GitHub te gaan</p>
-        <p className="paramTitle">Ga vervolgens naar het gewenste branch en klik op "add file"</p>
-        <p className="paramTitle">Voeg je tescript toe en commit je veranderingen</p>
-        </div>}
-      </div>
-      <form action="https://github.com/JuliavanDriel/web-apps/tree/master/frontend/src/components/testfiles">
+        <p className="paramTitle">Ga vervolgens naar het gewenste branch en klik op "add file"</p> */}
+        {/* <p className="paramTitle">Voeg je tescript toe en commit je veranderingen</p> */}
+        {/* </div>} */}
+      {/* </div> */}
+      {/* <form action="https://github.com/JuliavanDriel/web-apps/tree/master/frontend/src/components/testfiles">
         <button  className="Btn-Open-GitHub">
           Ga naar GitHub
         </button>
-        </form>
-
+        </form> */}
+{/* 
       <div>
         <h1 className="paramTitle">Stap 5: Ga naar Jenkins om de test uit te voeren</h1>
         <button className="InfoBtn" onClick={() => setInfoScriptPipeline(!InfoScriptPipeline)}>Info</button>
@@ -528,19 +527,19 @@ function handleHello(event) {
       <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
       <p className="paramTitle">)"dit moet een gekrulde haak zijn"</p>
      </div>} 
-     </div>
+     </div> */}
         
-        <form action="http://localhost:8080/login?from=%2F">
+        {/* <form action="http://localhost:8080/login?from=%2F">
         <button  className="Btn-Open-Jenkins">
           Ga naar JenKins
         </button>
-        </form>
+        </form> */}
         
-        <p className="paramTitle">Dit is de website die is aangegeven</p>
-      </div>
+         {/* <p className="paramTitle">Dit is de website die is aangegeven</p> */}
+      </div> 
 
       {/* Frame where the input/url webpage will be published */}
-      <div>
+      {/* <div>
         <iframe
           className="frame"
           title="output"
@@ -548,7 +547,7 @@ function handleHello(event) {
           height="400"
           width="600"
         ></iframe>
-      </div>
+      </div> */}
 
       <a href="/vragenlijst">
         <button className="BacktoQuestBtn">Terug</button>
