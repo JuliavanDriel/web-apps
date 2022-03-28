@@ -16,6 +16,7 @@ function UploadTool() {
         option: "",
         optionMac: "",
     });
+    
 
     //This is the state for update tool
     const [optionMoney, setoptionMoney] = useState("");
@@ -25,6 +26,8 @@ function UploadTool() {
     const [newfunc, setnewfunc] = useState(false);
     const [newtitle, setnewtitle] = useState("");
 
+
+    
     // Handle the change
     function handleChange(event) {
         const { name, value } = event.target;
@@ -121,6 +124,7 @@ function UploadTool() {
                 <p className="subTextUpL">
                     Vul hier de naam van de nieuwe testtool in:
                 </p>
+                
                 <input
                     onChange={handleChange}
                     name="title"

@@ -59,6 +59,8 @@ function RunnerScriptpage() {
   const scriptWeb = localStorage.getItem('scriptWeb')
 
   //selenium
+  const inputFileName = localStorage.getItem("inputFileName");
+  console.log("title file selenium is "+ inputFileName);
   const selenBasic = localStorage.getItem("selenBasic");
   // const [seleniumBasic, setSeleniumBasic] = useState(selenBasic);
   console.log("selenium script is:" + selenBasic);
@@ -82,6 +84,7 @@ function RunnerScriptpage() {
     GatlingMs: "",
     GatlingGs: "",
     scriptWeb:"",
+    // inputFileName: ""
   });
 
   // Handle the change
@@ -101,31 +104,41 @@ function RunnerScriptpage() {
       GatlingGs ,
       scriptWeb,
       nameFile,
+      // inputFileName
     );
     console.log(item);
   }
 
   // add testscript to database
   function addItem(e) {
-    alert("Script is opgeslagen in database");
+    // alert("Script is opgeslagen in database");
     e.preventDefault();
     const newItem = {
-      inputHttp: Httpqest,
-      inputAll: allquest,
-      ThreathsBasic: ThreathsBasic,
-      CypBasic: cypresBasic,
-      CypAssertion: CypAssertions,
-      CypAll: CypAlls,
+      // inputHttp: Httpqest,
+      // inputAll: allquest,
+      // ThreathsBasic: ThreathsBasic,
+      // CypBasic: cypresBasic,
+      // CypAssertion: CypAssertions,
+      // CypAll: CypAlls,
+      // idName:,
+      inputFileName: inputFileName,
       selenBasic: selenBasic,
-      GatlingBasics: GatlingBasics,
-      GatlingMs: GatlingMs,
-      GatlingGs: GatlingGs,
-      scriptWeb: scriptWeb,
+      // GatlingBasics: GatlingBasics,
+      // GatlingMs: GatlingMs,
+      // GatlingGs: GatlingGs,
+      // scriptWeb: scriptWeb,
     };
     axios.post("http://localhost:3001/SaveScript", newItem);
     console.log(newItem);
   }
  
+  // function getItem(e) {
+  //   useEffect(() => {
+  //     axios.get("http://localhost:3001/hellos").then((response) => {
+  //       setGetInputHey(response.data);
+  //     });
+  //   }, []);
+  // }
 
   const [InfoCheckTrue, setInfoCheckTrue] = useState(false);
   const [InfoDatabase, setInfoDatabase] = useState(false);
@@ -207,6 +220,17 @@ function handleHello(event) {
       };
   });
 }
+
+function axiosTest() {
+  const abc = axios.get("http://localhost:3001/getFile").then(response => response.data)
+  console.log(abc)
+}
+// const [fileData, setFileData] = useState();
+// useEffect(() => {
+//   axios.get("http://localhost:3001/getFile").then((response) => {
+//     setFileData(response.data);
+//   });
+// }, []);
 
   return (
     <div className="contain">
@@ -442,7 +466,7 @@ function handleHello(event) {
         ))}
       </div>
 
-        {/* <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1> */}
+        <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1>
         {/* <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button> */}
       {/* {InfoDatabase && <div>
       <div>
@@ -452,9 +476,13 @@ function handleHello(event) {
       </div>
       </div>} */}
 
-        {/* <button onClick={addItem} className="Btn-addItem-db">
+        <button onClick={addItem} className="Btn-addItem-db">
           Testscript opslaan in database
-        </button> */}
+        </button>
+ 
+        <button onClick={axiosTest} className="Btn-addItem-db">
+          Haal testscript uit database
+        </button> 
 
         {/* <div>
         {/* <h1 className="paramTitle">Stap 3: Testscript downloaden</h1> */}

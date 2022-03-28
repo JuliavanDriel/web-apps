@@ -640,23 +640,6 @@ function QuestionPage() {
   const [HandleJMRenderScript, setHandleJMRenderScript] = useState(false);
   localStorage.setItem("renderJMScript", HandleJMRenderScript);
 
-  const [seleniumTrue, setSeleniumTrue] = useState(false);
-  console.log("selenium:" + seleniumTrue);
-  localStorage.setItem("RunSeleniumsScript", seleniumTrue);
-
-  // script selenium
-  const [inputSelenium, setinputSelenium] = useState({
-    title: "",
-    chrome: "",
-    url: "",
-    search: "",
-    savefile: "",
-    idkey: "",
-    btnid:'',
-    SearchId:"",
-    TextSearch:"",
-    BtnText:'',
-  });
   ///////////////////////////////////////////cypresss
   // Cypress state of buttons, different scripts
   const [stateCypressBasic, setStateCyppressBasic] = useState(false);
@@ -1190,9 +1173,44 @@ function handleDifferentTools(event){
     );
   }
 
-  //////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Handle changes from the user input Selenium
+  const [inputFileName, setinputFileName] = useState({
+    title: "",
+  });
+  // const[TitleFileSelen, setTitleFileSelen] = useState();
+  localStorage.setItem("inputFileName", inputFileName);
+
+  function WriteNameFile(event) {
+    const { name, value } = event.target;
+    setinputFileName((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+    console.log("The date is: " + inputFileName);
+  }
+
+  const [seleniumTrue, setSeleniumTrue] = useState(false);
+  console.log("selenium:" + seleniumTrue);
+  localStorage.setItem("RunSeleniumsScript", seleniumTrue);
+
+  // script selenium
+  const [inputSelenium, setinputSelenium] = useState({
+    title: "",
+    chrome: "",
+    url: "",
+    search: "",
+    savefile: "",
+    idkey: "",
+    btnid:'',
+    SearchId:"",
+    TextSearch:"",
+    BtnText:'',
+  });
+  
   const [selenBasic, setselenBasic] = useState();
   localStorage.setItem("selenBasic", selenBasic);
   function handleChangeSelenium(event) {
@@ -1214,27 +1232,33 @@ function handleDifferentTools(event){
   function save(event) {
     setRenderSelenium(event.target.value);////////////////////////////////// hier is het script
     // Text for the basic script
-    
+    // Checkes if the button is in the webpage
     if(checkSeleniumBtnId && !checkSeleniumBtnSearch && !checkSeleniumBtnText){
+      setinputFileName(inputFileName.title)
       setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
+        'console.log("The test worked!!!")' +"\n" +
         'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
         
         'await driver.quit();'+ "\n" +
        ' }'+ "\n" +
         'example();'
       )}
+
+      // fills an inputfield on the webpage
       if(checkSeleniumBtnSearch && !checkSeleniumBtnId && !checkSeleniumBtnText){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'console.log("The test worked!!!")' +"\n" +
         'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
         'await driver.quit();'+ "\n" +
        ' }'+ "\n" +
@@ -1242,78 +1266,93 @@ function handleDifferentTools(event){
         )
       }
 
+      // Checks if the text is on the webpage
       if(checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'console.log("The test worked!!!")' +"\n" +
+       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
-       
        ' }'+ "\n" +
         'example();'
         )
       }
+
+      // Checks if the text is on the webpage AND fill in an inputfield
       if(checkSeleniumBtnText && checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'console.log("The test worked!!!")' +"\n" +
+       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
        'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
-       
        ' }'+ "\n" +
         'example();'
         )
       }
+
+      // Checks if the text is on the webpage AND click on and button
       if(checkSeleniumBtnText && !checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'console.log("The test worked!!!")' +"\n" +
+       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
        'console.log("Result is:"+ data);'+ "\n" +
        'await driver.quit();'+ "\n" +
-       
        ' }'+ "\n" +
         'example();'
         )
       }
+
+      // Checks if the button is on the webpage AND fill in an inputfield
       if(!checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'console.log("The test worked!!!")' +"\n" +
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
        'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'console.log("Result is:"+ data);' + "\n" +
        'await driver.quit();'+ "\n" +
-       
        ' }'+ "\n" +
         'example();'
         )
       }
+
+      // Checks if the button is on the webpage and clicks AND fill in an input field AND checks if the text is on the webpage
       if(checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'console.log("The test worked!!!")' +"\n" +
        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
-       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
        'console.log("Result is:"+ data);' + "\n" +
        'await driver.quit();'+ "\n" +
@@ -1323,12 +1362,14 @@ function handleDifferentTools(event){
         )
       }
       if(!checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
+        setinputFileName(inputFileName.title)
         setselenBasic(
         'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
         'require("' +inputSelenium.title + '");' +"\n" +
        "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").build();' + "\n" +
+       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
        'await driver.get("' +inputSelenium.url +'");' + "\n" +
+       'console.log("The test worked!!!")' +"\n" +
        'await driver.quit();'+ "\n" +
        
        ' }'+ "\n" +
@@ -1793,6 +1834,8 @@ function handleDifferentTools(event){
     console.log(event.target.value);
   }
 
+ 
+
   // This is where the HTML begins
   return (
     <div className="contain">
@@ -1874,7 +1917,6 @@ function handleDifferentTools(event){
           onClick={() => setSeleniumTrue(!seleniumTrue)}
           className="btnSeleniumTestscript"
           name="testtype"
-          id='SeleniumBtn'
         >
           Selenium
         </button>
@@ -1998,7 +2040,17 @@ function handleDifferentTools(event){
                 <br />
 
                 {/* save button and go to next page */}
-                <button id="CreateScriptBtn" className="CreateScritbtn" onClick={save}>Maak script aan</button>
+                {/* <input
+                  onChange={handleChangeSelenium}
+                  id="InputSeleniumQ1"
+                  name="title"
+                  value={inputSelenium.title}
+                  type="text">
+                </input> */}
+
+                <h1>Wat is de naam van de file?</h1>
+                <input name="title" placeholder="Naam" onChange={WriteNameFile}></input>
+               <button id="CreateScriptBtn" className="CreateScritbtn" onClick={save}>Maak script aan</button>
               </form>
             </div>
           </div>
