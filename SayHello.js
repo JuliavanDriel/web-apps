@@ -1,104 +1,55 @@
-// const driverProvider = require('./driverProvider.js');
-// const webdriver = require('selenium-webdriver');
-// // const fs = require('fs');
+const RunChomeHeadless = true;
+const chromeDriver = require('@sitespeed.io/chromedriver');
+const Chrome = require('selenium-webdriver/chrome');
 
-// const chromeCapabilities = webdriver.Capabilities.chrome();
-// chromeCapabilities.set(
-//   'chromeOptions', {
-//     args: [
-//       '--headless',
-//       '--no-sandbox',
-//     ],
-//   }
-// );
+const {Builder, By, Key, util} = require("selenium-webdriver");
 
-// const driver = new webdriver.Builder()
-//   .forBrowser('chrome')
-//   .withCapabilities(chromeCapabilities)
-//   .build();
+const getDriver = async () => {
 
-//   await driver.get("https://www.computest.nl/nl/");
-// console.log("The test worked!!!")
+    const options = new Chrome.Options;
+    options.addArguments('--no-sandbox'); //needed to run as root on ubuntu server
+    // options.addArguments('--incognito');
+    // options.addArguments('--disable-popup-blocking');
+    // options.addArguments('--disable-default-apps');
+    // options.addArguments('--disable-infobars');
+    // options.addArguments('--disable-extensions');
 
-// const {Builder, By, Key, util} = require("selenium-webdriver");
-// // require()
-// // const chromeDriver = require('@sitespeed.io/chromedriver');
-// const Chrome = require('selenium-webdriver/chrome');
-// const drivers = require('chromedriver');
+    options.headless();
 
-// // const binPath = drivers.binPath();
+    const service = new Chrome.ServiceBuilder(chromeDriver.binPath());
 
-// async function example(){
-//   // const driver = driverProvider.getDriver;
-//   const binPath = drivers.binPath();
+    const driver = await new Builder().forBrowser('chrome')
+          .setChromeService(service)
+          .setChromeOptions(options).build();
 
-// let driver = await new Builder().forBrowser("chrome").build();//.usingServer("http://localhost:4444")
-// // // .build();
-// await driver.get("https://www.computest.nl/nl/");
-// console.log("The test worked!!!")
+    const timeouts = {
+        implicit: 0,
+        pageLoad: 6000,
+        script: 3000
+    };
 
-
-
-
-
-
-
-
-// let data = await driver.findElement(By.className("article__subtitle")).getText();
-// // await driver.findElement(By.("")).click();
-// console.log("Result is:"+ data);
-// await driver.quit();
-//  }
-// example();
-
-// console.log("hello")
-console.log("Begin");
-const driverProvider = require('./driverProvider.js');
-const driver = driverProvider.getDriver();
-console.log("End");
-const loadGoogle = async () => {
-  try {
-    await driver.get('https://www.computest.nl/nl/'); 
-    console.log("The test worked!!!") 
-  }
-  finally {
-    await driver.quit();
-  }
+    await driver.manage().setTimeouts(timeouts);
+    return driver;
 };
-// loadGoogle();
 
+async function main() {
+    const driver = await getDriver();
 
-// // const driverProvider = require('./driverProvider.js');
-// const {Builder, By, Key, util} = require("selenium-webdriver");
-// require("chromedriver");
-// async function example(){
-// const driver = driverProvider.getDriver();//await new Builder().forBrowser("chrome").build();//.usingServer("http://localhost:4444")
-// // .build();
-// await driver.get("https://www.computest.nl/nl/");
-// console.log("The test worked!!!")
-// let data = await driver.findElement(By.className("article__subtitle")).getText();
-// // await driver.findElement(By.("")).click();
-// console.log("Result is:"+ data);
-// await driver.quit();
-//  }
-// example();
+    const loadGoogle = async () => {
+        try {
+            const foo = await driver.get('https://www.computest.nl/nl/');
+            let data = await driver.findElement(By.className("article__subtitle")).getText();
+            console.log(data);
+            console.log("The test worked!!!")
+        }
+        finally {
+            await driver.quit();
+        }
+    };
+    loadGoogle();
 
-// // console.log("hello")
+    console.log("End");
 
-// const driverProvider = require('./driverProvider.js');
+}
 
-// const loadGoogle = async () => {
-//   const driver = driverProvider.getDriver();
-//   console.log("Heolloooo")
-//   try {
-//     await driver.get('https://www.computest.nl/nl/'); 
-//     console.log("The test worked!!!") 
-//   }
-//   finally {
-//     await driver.quit();
-//   }
-// };
-// loadGoogle();
-// // console.log("Test works!!!")
-
-
+main();
