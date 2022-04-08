@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to mongodb
-mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesDB',{
+mongoose.connect('mongodb+srv://JohnDoe:JohnDoe01@webdb.l1qjh.mongodb.net/notesDB',{ 
    useNewUrlParser: true,
    useUnifiedTopology:true,
 }).then(console.log('connected to mongoDB!'))
@@ -32,4 +32,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', fileRoutes.routes);
 
 app.listen(port, () => console.log(`server is listening on url http://localhost:${port}`));
+
+
 

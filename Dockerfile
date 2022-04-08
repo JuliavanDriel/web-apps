@@ -32,8 +32,9 @@ RUN npm install @sitespeed.io/chromedriver
 RUN npm install selenium-webdriver
 
 # Copy the directory
-COPY . /SayHello
-WORKDIR /SayHello
+COPY . /ChangeFile
+WORKDIR /ChangeFile
 
 # Run the filew
-CMD node SayHello.js
+CMD node ChangeFile.js
+

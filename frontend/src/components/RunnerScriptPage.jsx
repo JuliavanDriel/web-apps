@@ -59,8 +59,8 @@ function RunnerScriptpage() {
   const scriptWeb = localStorage.getItem('scriptWeb')
 
   //selenium
-  const inputFileName = localStorage.getItem("inputFileName");
-  console.log("title file selenium is "+ inputFileName);
+  // const inputFileName = localStorage.getItem("inputFileName");
+  // console.log("title file selenium is "+ inputFileName);
   const selenBasic = localStorage.getItem("selenBasic");
   // const [seleniumBasic, setSeleniumBasic] = useState(selenBasic);
   console.log("selenium script is:" + selenBasic);
@@ -121,7 +121,7 @@ function RunnerScriptpage() {
       // CypAssertion: CypAssertions,
       // CypAll: CypAlls,
       // idName:,
-      inputFileName: inputFileName,
+      // inputFileName: inputFileName,
       selenBasic: selenBasic,
       // GatlingBasics: GatlingBasics,
       // GatlingMs: GatlingMs,
@@ -159,13 +159,16 @@ const uploadSingleFile = async () => {
   // props.getsingle();
 }
 
-const[nameFile, setnameFile] = useState("")
+const[nameFile, setnameFile] = useState({
+  title: ""
+})
 
-function addfile(){
-  // naam toevoegen
-   var file = new File([selenBasic], nameFile +"test.js", {type: "javascript"});
-   FileSaver.saveAs(file);
-}
+// function addfile(){
+//   // naam toevoegen
+//   // console.log("script:" + selenBasic)
+//    var file = new File([selenBasic], nameFile + ".js", {type: "javascript"});   
+//    FileSaver.saveAs(file);
+// }
 
 function handleChange2(event) {
   const { name, value } = event.target;
@@ -182,20 +185,25 @@ function handleChange2(event) {
 
 const [inputHey, setSayHello] = useState({
   TitleHello:"",
-});
+}
+
+);
 
 const [getinputhey, setGetInputHey] = useState([])
 
 
 
   // add item to database and post a testscript to run
-  function addItemHello(e) {
+  function addItemTest(e) {
+    alert("Het kan even duren voordat de test klaar is. Een moment geduld a.u.b.")
     e.preventDefault();
     
+    // Save result from the test
     const newhello = {
       TitleHello: inputHey.TitleHello,
     };
-    axios.post("http://localhost:3001/uitvoerenvanHello", newhello);
+    // Run the test
+    axios.post("http://localhost:3001/uitvoerenvanTest", newhello);
     console.log(newhello);
   }
  
@@ -221,16 +229,13 @@ function handleHello(event) {
   });
 }
 
-function axiosTest() {
-  const abc = axios.get("http://localhost:3001/getFile").then(response => response.data)
-  console.log(abc)
+
+// Get data of the file and kopie it to a file in the path
+function getTestFromDatabase(){
+  alert("Script is gepushed naar de backend")
+  console.log(selenBasic)
+  axios.get("http://localhost:3001/getFile/", { params: { selenBasic: selenBasic } });
 }
-// const [fileData, setFileData] = useState();
-// useEffect(() => {
-//   axios.get("http://localhost:3001/getFile").then((response) => {
-//     setFileData(response.data);
-//   });
-// }, []);
 
   return (
     <div className="contain">
@@ -450,39 +455,33 @@ function axiosTest() {
           placeholder="Naam"
         ></input>
 
+{/*  Change the text in a file */}
+<h1 className="paramTitle">Stap 2: Push de code naar de backend</h1>
+<button id="executeScriptBtn" className="executeScriptBtn" onClick={getTestFromDatabase}>Gebruik de bovenstaande code</button>
 
-<input value={inputHey.TitleHello} onChange={handleHello} name="TitleHello"/>
-
-{/* post a testscript to run */}
-<button className="executeScriptBtn" onClick={addItemHello}>Voer testscript uit</button>
-
+{/* Execute the script with Docker */}
+<h1 className="paramTitle">Stap 3: Voer de test uit</h1>
+<p className="QuestScript">Let op, het kan even duren voordat de test klaar is. Dit komt doordat Docker moet opstarten en moet runnen. Even geduld...</p>
+<button id="executeScriptChangeBtn" className="executeScriptChangeBtn" onClick={addItemTest}>Voer testscript uit</button>
 
 {/* Show all data of results aftester execution */}
+<p className="paramTitle">Resultaat:</p>
 <div className="gridContainer">
         {getinputhey.map((to) => (
           <div key={to._id}>
-            <h3 className="titleTools">{to.TitleHello}</h3>
+            <h3 id="RenderResultScript" className="titleTools">{to.TitleHello}</h3>
                    </div>
         ))}
       </div>
 
-        <h1 className="paramTitle">Stap 2: Testscript opslaan in database</h1>
-        {/* <button className="InfoBtn" onClick={() => setInfoDatabase(!InfoDatabase)}>Info</button> */}
-      {/* {InfoDatabase && <div>
-      <div>
-        <p className="paramTitle">Wil je het testscript opslaan?</p>
-        <p className="paramTitle">Zo ja, klik dan op de knop "Testscript opslaan in database".</p>
-        <p className="paramTitle">Zo nee, ga dan maar de volgende stap.</p>
-      </div>
-      </div>} */}
-
-        <button onClick={addItem} className="Btn-addItem-db">
+        <h1 className="paramTitle">Optioneel: Testscript opslaan in database</h1>
+        <button  onClick={addItem} className="executeScriptBtn">
           Testscript opslaan in database
         </button>
  
-        <button onClick={axiosTest} className="Btn-addItem-db">
+        {/* <button onClick={axiosTest} className="Btn-addItem-db">
           Haal testscript uit database
-        </button> 
+        </button>  */}
 
         {/* <div>
         {/* <h1 className="paramTitle">Stap 3: Testscript downloaden</h1> */}
@@ -494,23 +493,23 @@ function axiosTest() {
       </div> */} 
       
 
-      {/* <input  onChange={handleChange2} placeholder="Naam" id="setnameFile" name="setnameFile" /> */}
+      {/* <input  onChange={handleChange2} placeholder="Naam van bestand" id="setnameFile" name="setnameFile" /> */}
 
-        {/* <button onClick={addfile} className="QuestDownloadBtn">Download testscript</button>
-        <h3 className="paramTitle">keuze uit: testscript toevoegen aan bestandspad of testscript toevoegen aan GitHub</h3>
-          */}
+         {/* <button onClick={addfile} className="QuestDownloadBtn">Download testscript</button> */}
+        {/* <h3 className="paramTitle">keuze uit: testscript toevoegen aan bestandspad of testscript toevoegen aan GitHub</h3> */}
+          
          {/* Code for saving in directory */}
         
-         {/* <div className="form-group">
-                    <label >Kies een script en voeg hem toe aan een bestandspad</label>
+         <div className="form-group">
+                    {/* <label >Kies een script en voeg hem toe aan een bestandspad</label> */}
                     <br />
                     
-                    <input type="file" className="form-control" onChange={(e) => SingleFileChange(e)} />
+                    {/* <input type="file" className="form-control" onChange={(e) => SingleFileChange(e)} /> */}
                     <br />
-                    <br />
-                    <button type="button" className="btn btn-danger" onClick={() => uploadSingleFile()} >Upload</button>
+                    {/* <br />
+                    <button type="button" className="btn btn-danger" onClick={() => uploadSingleFile()} >Upload</button> */}
             
-                </div> */}
+                </div>
                 
 
         {/* <div> */}
@@ -581,6 +580,16 @@ function axiosTest() {
         <button className="BacktoQuestBtn">Terug</button>
       </a>
     </div>
+
+    {/* <h1>Alle scripts</h1>
+        <div className="gridContainerJM">
+        {fileData.map((to, key) => (
+         <div className="Onegrid" key={key}>
+              {to.inputFileName === "EveryOne" && <div><p> {to.selenBasic}</p><button className="deletebtntool" onClick={() => kopieItem(to._id)}>kopie script</button></div>}
+            
+          </div>
+        ))}
+        </div> */}
     </div>
   );
 }

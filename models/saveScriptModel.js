@@ -9,7 +9,7 @@ const FullScriptSchema = {
     // CypAssertion:String,
     // CypAll:String,
     
-    inputFileName: String,
+    // inputFileName: String,
     selenBasic: String,
     // scriptWeb: String
 }

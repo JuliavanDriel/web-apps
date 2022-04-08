@@ -1215,7 +1215,7 @@ function handleDifferentTools(event){
   localStorage.setItem("selenBasic", selenBasic);
   function handleChangeSelenium(event) {
     const { name, value } = event.target;
-
+    
     setinputSelenium((prevInput) => {
       return {
         ...prevInput,
@@ -1236,33 +1236,118 @@ function handleDifferentTools(event){
     if(checkSeleniumBtnId && !checkSeleniumBtnSearch && !checkSeleniumBtnText){
       setinputFileName(inputFileName.title)
       setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-        'console.log("The test worked!!!")' +"\n" +
-        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
-        
-        'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+        // import chrome and Selenium, create a chromedriver en run it
+"const RunChomeHeadless = true;" + "\n"+
+"const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+"const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+"const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+"const getDriver = async () => { "+ "\n"+
+
+    // options to disable functionalities on the Chromedriver 
+    "const options = new Chrome.Options; "+ "\n"+
+   "options.addArguments('--no-sandbox'); "+ "\n"+
+   "options.headless();" + "\n"+
+
+    // Create a path for the chromedriver
+    "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+
+    // Built a driver
+    "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+         ".setChromeService(service) "+ "\n"+
+         " .setChromeOptions(options).build(); "+ "\n"+
+
+   "const timeouts = { "+ "\n"+
+       "implicit: 0," + "\n"+
+        "pageLoad: 6000," + "\n"+
+        "script: 3000" + "\n"+
+    "}; "+ "\n"+
+
+    "await driver.manage().setTimeouts(timeouts);" + "\n"+
+    "return driver;" + "\n"+
+"};" + "\n"+
+
+// Function with the test inside
+"async function main() { "+ "\n"+
+    // Get the driver
+    "const driver = await getDriver();" + "\n"+
+
+    // The Selenium testscript 
+    "const testScriptSelenium = async () => {"+ "\n"+
+        "try { " +"\n"+
+            `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+            'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
+            "console.log('The test worked!!!')" +"\n"+
+        "}"+ "\n"+
+        "finally {"+ "\n"+
+            "await driver.quit();"+ "\n"+
+        "}"+ "\n"+
+    "};"+ "\n"+
+    "testScriptSelenium();"+ "\n"+
+
+    "console.log('End');"+ "\n"+
+
+"}"+ "\n"+
+
+"main();"
       )}
 
       // fills an inputfield on the webpage
       if(checkSeleniumBtnSearch && !checkSeleniumBtnId && !checkSeleniumBtnText){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-        'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-        'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+// init chrome
+          "const RunChomeHeadless = true;" + "\n"+
+"const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+"const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+
+"const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+
+"const getDriver = async () => { "+ "\n"+
+
+    // options to disable functionalities on the Chromedriver 
+    "const options = new Chrome.Options; "+ "\n"+
+   "options.addArguments('--no-sandbox'); "+ "\n"+
+   "options.headless();" + "\n"+
+
+    // Create a path for the chromedriver
+    "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+
+    // Built a driver
+    "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+         ".setChromeService(service) "+ "\n"+
+         " .setChromeOptions(options).build(); "+ "\n"+
+
+   "const timeouts = { "+ "\n"+
+       "implicit: 0," + "\n"+
+        "pageLoad: 6000," + "\n"+
+        "script: 3000" + "\n"+
+    "}; "+ "\n"+
+
+    "await driver.manage().setTimeouts(timeouts);" + "\n"+
+    "return driver;" + "\n"+
+"}; "
++ "\n" +"async function main() { "+ "\n"+
+    // Get the driver
+    "const driver = await getDriver();" + "\n"+
+
+    // The Selenium testscript 
+    "const testScriptSelenium = async () => {"+ "\n"+
+        "try { " +"\n"+
+        `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+            'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+            "console.log('The test worked!!!')" +"\n"+
+        "}"+ "\n"+
+        "finally {"+ "\n"+
+            "await driver.quit();"+ "\n"+
+        "}"+ "\n"+
+    "};"+ "\n"+
+    "testScriptSelenium();"+ "\n"+
+
+    "console.log('End');"+ "\n"+
+
+"}"+ "\n"+
+
+"main();"        
         )
       }
 
@@ -1270,17 +1355,58 @@ function handleDifferentTools(event){
       if(checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'console.log("Result is:"+ data);'+ "\n" +
-       'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+          
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+              `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+                  'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();'+ "\n" +
+                  'console.log("Result is:"+ data);'+ "\n" +
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();"
         )
       }
 
@@ -1288,18 +1414,59 @@ function handleDifferentTools(event){
       if(checkSeleniumBtnText && checkSeleniumBtnSearch && !checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-       'console.log("Result is:"+ data);'+ "\n" +
-       'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+          
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+              `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+                  'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+                  'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+                  'console.log("Result is:"+ data);'+ "\n" + 
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();"
         )
       }
 
@@ -1307,18 +1474,62 @@ function handleDifferentTools(event){
       if(checkSeleniumBtnText && !checkSeleniumBtnSearch && checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+          
+
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+              `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+                  'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
        'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
        'console.log("Result is:"+ data);'+ "\n" +
-       'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+                  
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();"
+
         )
       }
 
@@ -1326,18 +1537,63 @@ function handleDifferentTools(event){
       if(!checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-       'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'console.log("Result is:"+ data);' + "\n" +
-       'await driver.quit();'+ "\n" +
-       ' }'+ "\n" +
-        'example();'
+
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+       
+
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+              `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+                  'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+                  'let data = await driver.findElement(By.id("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+                  'console.log("Result is:"+ data);' + "\n" +
+    
+                  
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();"     
         )
       }
 
@@ -1345,35 +1601,116 @@ function handleDifferentTools(event){
       if(checkSeleniumBtnText && checkSeleniumBtnSearch && checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
-       'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
-       'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
-       'console.log("Result is:"+ data);' + "\n" +
-       'await driver.quit();'+ "\n" +
-       
-       ' }'+ "\n" +
-        'example();'
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+         
+
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+              `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+
+                  'await driver.findElement(By.id("'+inputSelenium.btnid+'")).click();'+ "\n" +
+                  'let data = await driver.findElement(By.className("'+inputSelenium.BtnText+'")).getText();' +'\n'+
+                  'await driver.findElement(By.id("'+inputSelenium.SearchId+'")).sendKeys("'+inputSelenium.TextSearch+'");'+ "\n" +
+                  'console.log("Result is:"+ data);' + "\n" +                  
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();" 
         )
       }
       if(!checkSeleniumBtnText && !checkSeleniumBtnSearch && !checkSeleniumBtnId){
         setinputFileName(inputFileName.title)
         setselenBasic(
-        'const {Builder, By, Key, util} = require("selenium-webdriver");' +"\n" +
-        'require("' +inputSelenium.title + '");' +"\n" +
-       "async function example(){" +"\n" +
-       'let driver = await new Builder().forBrowser("' + inputSelenium.chrome +'").usingServer("http://localhost:4444").build();' + "\n" +
-       'await driver.get("' +inputSelenium.url +'");' + "\n" +
-       'console.log("The test worked!!!")' +"\n" +
-       'await driver.quit();'+ "\n" +
-       
-       ' }'+ "\n" +
-        'example();'
+          "const RunChomeHeadless = true;" + "\n"+
+          "const chromeDriver = require('@sitespeed.io/chromedriver');" + "\n"+
+          "const Chrome = require('selenium-webdriver/chrome');" + "\n"+
+          
+          "const {Builder, By, Key, util} = require('selenium-webdriver');" + "\n"+
+          
+          "const getDriver = async () => { "+ "\n"+
+          
+              // options to disable functionalities on the Chromedriver 
+              "const options = new Chrome.Options; "+ "\n"+
+             "options.addArguments('--no-sandbox'); "+ "\n"+
+             "options.headless();" + "\n"+
+          
+              // Create a path for the chromedriver
+              "const service = new Chrome.ServiceBuilder(chromeDriver.binPath());" + "\n"+
+          
+              // Built a driver
+              "const driver = await new Builder().forBrowser('chrome')" + "\n"+
+                   ".setChromeService(service) "+ "\n"+
+                   " .setChromeOptions(options).build(); "+ "\n"+
+          
+             "const timeouts = { "+ "\n"+
+                 "implicit: 0," + "\n"+
+                  "pageLoad: 6000," + "\n"+
+                  "script: 3000" + "\n"+
+              "}; "+ "\n"+
+          
+              "await driver.manage().setTimeouts(timeouts);" + "\n"+
+              "return driver;" + "\n"+
+          "};" + "\n"+
+          
+
+          "async function main() { "+ "\n"+
+          // Get the driver
+          "const driver = await getDriver();" + "\n"+
+      
+          // The Selenium testscript 
+          "const testScriptSelenium = async () => {"+ "\n"+
+              "try { " +"\n"+
+                  `const foo = await driver.get('`+ inputSelenium.url +`');` + "\n"+ 
+                  "console.log('The test worked!!!')" +"\n"+
+              "}"+ "\n"+
+              "finally {"+ "\n"+
+                  "await driver.quit();"+ "\n"+
+              "}"+ "\n"+
+          "};"+ "\n"+
+          "testScriptSelenium();"+ "\n"+
+          "console.log('Test works');"+ "\n"+
+      "}"+ "\n"+
+      "main();"
         )
       
   }
@@ -1834,7 +2171,28 @@ function handleDifferentTools(event){
     console.log(event.target.value);
   }
 
- 
+// validate user input for selenium test
+function SpecialCharWeb(input){
+  var num = /["'\\]/gi;
+  inputSelenium.url = inputSelenium.url.replace(num, "");
+}
+function SpecialChar(input){
+  var num = /[-[/\]{}()"'*+?.,\\^$|#\s]/gi;
+  inputSelenium.BtnText = inputSelenium.BtnText.replace(num, "");
+}
+function SpecialCharSearch(input){
+  var num = /[-[/\]{}()"'*+?.,\\^$|#\s]/gi;
+  inputSelenium.SearchId = inputSelenium.SearchId.replace(num, "");
+}
+function SpecialCharSearchTekst(input){
+  var num = /[^a-zA-Z]/gi;
+  inputSelenium.TextSearch = inputSelenium.TextSearch.replace(num, "");
+}
+function SpecialCharButton(input){
+  var num = /[-[/\]{}()"'*+?.,\\^$|#\s]/gi;
+  inputSelenium.btnid = inputSelenium.btnid.replace(num, "");
+}
+
 
   // This is where the HTML begins
   return (
@@ -1960,29 +2318,12 @@ function handleDifferentTools(event){
             <h3 className="createScript">Maak een script:</h3>
             
             <div className="script">
-              <p className="QuestScript" id='SeleniumQ1'>Welke browser zou je willen gebruiken? (chromedriver)</p>
               <form action="uitvoerenScript">
-                {/* Input fields for the changes on a script */}
-                <input
-                  onChange={handleChangeSelenium}
-                  id="InputSeleniumQ1"
-                  name="title"
-                  value={inputSelenium.title}
-                  type="text">
-                </input>
-
-                <p className="QuestScript">Welke browser zou je willen gebruiken? (chrome)</p>
-                <input
-                  onChange={handleChangeSelenium}
-                  id="InputSeleniumQ2"
-                  name="chrome"
-                  value={inputSelenium.chrome}
-                  type="text">
-                </input>
-                
                 <p className="QuestScript">Welke URL-link zou je willen gebruiken? (http://example.nl)</p>
+                <p className="QuestScript">Je kan de volgende characters niet gebruiken: "'\\</p>
                 <input
                   onChange={handleChangeSelenium}
+                  onKeyUp={SpecialCharWeb(this)}
                   id="InputSeleniumQ3"
                   name="url"
                   value={inputSelenium.url}
@@ -2003,7 +2344,8 @@ function handleDifferentTools(event){
          <span className="subtitleQest">knop klikken</span>
             {checkSeleniumBtnId && <div>
               <p className="QuestScript">Wat is het id van de knop?</p>
-                <input onChange={handleChangeSelenium} id="btnid" name="btnid" value={inputSelenium.btnid} type="text"></input>
+              <p className="QuestScript">Je kan de volgende characters niet gebruiken: -[/\]()"'*+?.,\\^$|#\s en curly brackets</p>
+                <input onKeyUp={SpecialCharButton(this)} onChange={handleChangeSelenium} id="btnid" name="btnid" value={inputSelenium.btnid} type="text"></input>
                 </div>}
 
                 <input
@@ -2017,14 +2359,16 @@ function handleDifferentTools(event){
          <span className="subtitleQest">Input veld invullen</span>
             {checkSeleniumBtnSearch && <div>
               <p className="QuestScript">Wat is het id van de input veld?</p>
-                <input onChange={handleChangeSelenium} id="SearchId" name="SearchId" value={inputSelenium.SearchId} type="text"></input>
+              <p className="QuestScript">Je kan de volgende characters niet gebruiken: -[/\]()"'*+?.,\\^$|#\s en curly brackets</p>
+                <input onKeyUp={SpecialCharSearch(this)} onChange={handleChangeSelenium} id="SearchId" name="SearchId" value={inputSelenium.SearchId} type="text"></input>
                 <p className="QuestScript">Wat wil je in de inputveld schrijven?</p>
-                <input onChange={handleChangeSelenium} id="TextSearch" name="TextSearch" value={inputSelenium.TextSearch} type="text"></input>
+                <p className="QuestScript">Je kan alleen letters schrijven</p>
+                <input onKeyUp={SpecialCharSearchTekst(this)} onChange={handleChangeSelenium} id="TextSearch" name="TextSearch" value={inputSelenium.TextSearch} type="text"></input>
                 </div>}
 
 
                 <input
-          id="CheckTitle"
+          id="CheckTitleid"
           type="checkbox"
           className="CheckTitle"
           value={checkSeleniumBtnText}
@@ -2034,7 +2378,8 @@ function handleDifferentTools(event){
          <span className="subtitleQest">Tekst op pagina</span>
             {checkSeleniumBtnText && <div>
               <p className="QuestScript">Wat is het id van de tekst?</p>
-                <input onChange={handleChangeSelenium} id="BtnText" name="BtnText" value={inputSelenium.BtnText} type="text"></input>
+              <p className="QuestScript">Je kan de volgende characters niet gebruiken: -[/\]()"'*+?.,\\^$|#\s en curly brackets</p>
+                <input onKeyUp={SpecialChar(this)} onChange={handleChangeSelenium} id="BtnText" name="BtnText" value={inputSelenium.BtnText} type="text"></input>
                 </div>}
                 <br />
                 <br />
@@ -2048,8 +2393,7 @@ function handleDifferentTools(event){
                   type="text">
                 </input> */}
 
-                <h1>Wat is de naam van de file?</h1>
-                <input name="title" placeholder="Naam" onChange={WriteNameFile}></input>
+                
                <button id="CreateScriptBtn" className="CreateScritbtn" onClick={save}>Maak script aan</button>
               </form>
             </div>
@@ -2838,3 +3182,5 @@ function handleDifferentTools(event){
 }
 
 export default QuestionPage;
+
+

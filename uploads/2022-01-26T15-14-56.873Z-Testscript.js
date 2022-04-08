@@ -1,8 +1,16 @@
-const {Builder, By, Key, util} = require("selenium-webdriver");
-require("chromedriver");
-async function example(){
-let driver = await new Builder().forBrowser("chrome").build();
-await driver.get("http://localhost:3000/vragenlijst");
-await driver.findElement(By.name("TitleQ")).sendKeys("Testen. Testen. Testen.", Key.RETURN);}
-//driver.quit()
-example();
+const { spawn } = require('child_process');
+const newSpawnProces = spawn('coomand', ['file.js']);
+
+newSpawnProces.stdout.on('data', (data) => {
+  console.log(data);
+});
+
+newSpawnProces.stderr.on('data', (data) => {
+  console.error(data);
+});
+
+newSpawnProces.on('exit', (code) => {
+  console.log(`Exited with code ${code}`);
+});
+
+
